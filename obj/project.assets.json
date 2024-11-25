@@ -13271,11 +13271,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Proyectos\\BFASenadoAPI\\BFASenado\\BFASenado.csproj",
+      "projectUniqueName": "C:\\Proyectos\\BFA-API\\BFASenado.csproj",
       "projectName": "BFASenado",
-      "projectPath": "C:\\Proyectos\\BFASenadoAPI\\BFASenado\\BFASenado.csproj",
+      "projectPath": "C:\\Proyectos\\BFA-API\\BFASenado.csproj",
       "packagesPath": "C:\\Users\\fsalomone\\.nuget\\packages\\",
-      "outputPath": "C:\\Proyectos\\BFASenadoAPI\\BFASenado\\obj\\",
+      "outputPath": "C:\\Proyectos\\BFA-API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -9,6 +9,7 @@ using BFASenado.DTO.HashDTO;
 using BFASenado.Services;
 using BFASenado.DTO.LogDTO;
 using System.Security.Policy;
+using System.Security.Cryptography;
 
 namespace BFASenado.Controllers
 {
@@ -69,6 +70,55 @@ namespace BFASenado.Controllers
         #endregion
 
         #region Methods
+
+        [HttpPost("Sha256Hash")]
+        public async Task<ActionResult<string>> UploadPdf(IFormFile pdfFile)
+        {
+            if (pdfFile != null && pdfFile.Length > 0)
+            {
+                try
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        // Leer el archivo de manera asíncrona
+                        await pdfFile.CopyToAsync(memoryStream);
+                        var pdfBytes = memoryStream.ToArray();
+
+                        // Calcular el hash de manera síncrona (SHA256 no es asíncrono)
+                        using (var sha256 = SHA256.Create())
+                        {
+                            byte[] hashBytes = sha256.ComputeHash(pdfBytes);
+                            string hash = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+
+                            // Log Éxito
+                            var log = _logService.CrearLog(
+                                HttpContext,
+                                null,
+                                $"{_messageService.GetSha256HashSuccess()}",
+                                null);
+                            _logger.LogInformation("{@Log}", log);
+
+                            // Retornar solo el hash SHA256
+                            return Ok(hash);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Log Error
+                    var log = _logService.CrearLog(
+                        HttpContext,
+                        null,
+                        $"{_messageService.GetSha256HashError()}. {ex.Message}",
+                        ex.StackTrace);
+                    _logger.LogError("{@Log}", log);
+
+                    throw new Exception($"{_messageService.GetSha256HashError()}. {ex.Message}. {ex.StackTrace}");
+                }
+            }
+
+            return BadRequest(new { success = false, message = "El archivo PDF no es válido." });
+        }
 
         [HttpGet("Balance")]
         public async Task<ActionResult<decimal>> Balance()

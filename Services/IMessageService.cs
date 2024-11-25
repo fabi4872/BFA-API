@@ -3,6 +3,7 @@
     public interface IMessageService
     {
         // Success
+        string GetSha256HashSuccess();
         string GetBalanceSuccess();
         string GetHashSuccess();
         string GetHashesSuccess();
@@ -11,6 +12,7 @@
 
 
         // Error
+        string GetSha256HashError();
         string GetBalanceError();
         string GetHashErrorFormatoIncorrecto();
         string GetHashErrorNotFound();

@@ -90,5 +90,31 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "BFASenado.Controllers.BFAController",
+    "Method": "UploadPdf",
+    "RelativePath": "api/BFA/Sha256Hash",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pdfFile",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   }
 ]

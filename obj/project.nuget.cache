@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "fXZ4wkO8y98=",
+  "dgSpecHash": "o3XT3fhapnM=",
   "success": true,
-  "projectFilePath": "C:\\Proyectos\\BFASenadoAPI\\BFASenado\\BFASenado.csproj",
+  "projectFilePath": "C:\\Proyectos\\BFA-API\\BFASenado.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\fsalomone\\.nuget\\packages\\adraffy.ensnormalize\\0.1.5\\adraffy.ensnormalize.0.1.5.nupkg.sha512",
     "C:\\Users\\fsalomone\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",

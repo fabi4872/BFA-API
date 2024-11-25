@@ -11,6 +11,11 @@
         #region Methods
 
         // Success
+        public string GetSha256HashSuccess()
+        {
+            return "Hash SHA256 obtenido correctamente";
+        }
+
         public string GetBalanceSuccess()
         {
             return "Balance/gas de la cuenta obtenido correctamente";
@@ -34,6 +39,11 @@
 
 
         // Error
+        public string GetSha256HashError()
+        {
+            return "Error al obtener el hash SHA256";
+        }
+
         public string GetBalanceError()
         {
             return "Error al obtener el balance/gas de la cuenta";
