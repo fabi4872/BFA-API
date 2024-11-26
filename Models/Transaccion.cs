@@ -9,9 +9,11 @@ namespace BFASenado.Models
     {
         [Key]
         public long Id { get; set; }
+        
         [StringLength(100)]
         [Unicode(false)]
         public string Hash { get; set; } = null!;
+        
         [Column(TypeName = "text")]
         public string Base64 { get; set; } = null!;
     }

@@ -7,9 +7,8 @@ using BFASenado.Models;
 using Microsoft.EntityFrameworkCore;
 using BFASenado.DTO.HashDTO;
 using BFASenado.Services;
-using BFASenado.DTO.LogDTO;
-using System.Security.Policy;
 using System.Security.Cryptography;
+using BFASenado.DTO.FileDTO;
 
 namespace BFASenado.Controllers
 {
@@ -71,8 +70,8 @@ namespace BFASenado.Controllers
 
         #region Methods
 
-        [HttpPost("Sha256Hash")]
-        public async Task<ActionResult<string>> UploadPdf(IFormFile pdfFile)
+        [HttpPost("ArchivoData")]
+        public async Task<ActionResult<FileDTO?>> ArchivoData(IFormFile pdfFile)
         {
             if (pdfFile != null && pdfFile.Length > 0)
             {
@@ -90,6 +89,9 @@ namespace BFASenado.Controllers
                             byte[] hashBytes = sha256.ComputeHash(pdfBytes);
                             string hash = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
 
+                            // Calcular Base64
+                            string base64 = Convert.ToBase64String(pdfBytes);
+
                             // Log Éxito
                             var log = _logService.CrearLog(
                                 HttpContext,
@@ -98,8 +100,12 @@ namespace BFASenado.Controllers
                                 null);
                             _logger.LogInformation("{@Log}", log);
 
-                            // Retornar solo el hash SHA256
-                            return Ok(hash);
+                            // Retornar
+                            return Ok(new FileDTO()
+                            {
+                                HashSHA256 = hash,
+                                Base64 = base64
+                            });
                         }
                     }
                 }
@@ -117,7 +123,7 @@ namespace BFASenado.Controllers
                 }
             }
 
-            return BadRequest(new { success = false, message = "El archivo PDF no es válido." });
+            return BadRequest(_messageService.GetSha256HashError());
         }
 
         [HttpGet("Balance")]
@@ -272,13 +278,13 @@ namespace BFASenado.Controllers
         }
 
         [HttpPost("GuardarHash")]
-        public async Task<ActionResult<HashDTO>> GuardarHash([FromBody] GuardarHashDTO input)
+        public async Task<ActionResult<HashDTO?>> GuardarHash([FromBody] GuardarHashDTO input)
         {
             try
             {
-                if (string.IsNullOrEmpty(input.Hash?.Trim()))
+                if (input == null || string.IsNullOrEmpty(input.Hash.Trim()) || string.IsNullOrEmpty(input.Base64.Trim()))
                 {
-                    // Log
+                    // Log de formato incorrecto
                     var logFormatoIncorrecto = _logService.CrearLog(
                         HttpContext,
                         input.Hash,
@@ -300,10 +306,13 @@ namespace BFASenado.Controllers
                 string hashHex = "0x" + hashValue.ToString("X");
 
                 var checkHashFunction = contract.GetFunction("checkHash");
-                bool exists = await checkHashFunction.CallAsync<bool>(hashHex);
-                if (exists)
+
+                // Verificar existencia en DB y BFA
+                var existsDB = await this.ObtenerTransaccionEnDB(hashHex);
+                bool existsBFA = await checkHashFunction.CallAsync<bool>(hashHex);
+                if (existsBFA || existsDB != null)
                 {
-                    // Log
+                    // Log de hash existente
                     var logHashExists = _logService.CrearLog(
                         HttpContext,
                         input.Hash,
@@ -314,35 +323,67 @@ namespace BFASenado.Controllers
                     return BadRequest(_messageService.GetHashExists());
                 }
 
-                bool exito = await this.GuardarTransaccionEnDB(input.Base64, hashHex);
-                if (exito)
+                // Iniciar transacción en la base de datos
+                using (var transaction = await _context.Database.BeginTransactionAsync())
                 {
-                    var transaccion = await this.ObtenerTransaccionEnDB(hashHex);
-
-                    if (transaccion != null)
+                    try
                     {
+                        // Guardar en la base de datos
+                        bool exitoDB = await this.GuardarTransaccionEnDB(input.Base64, hashHex);
+                        if (!exitoDB)
+                        {
+                            throw new Exception($"{_messageService.PostBaseDatosError()}");
+                        }
+
+                        // Recuperar de base de datos
+                        existsDB = await this.ObtenerTransaccionEnDB(hashHex);
+
+                        // Guardar en la BFA
                         var objectList = new List<BigInteger> { hashValue };
                         var transactionHash = await putFunction.SendTransactionAsync(
                             account.Address,
                             new Nethereum.Hex.HexTypes.HexBigInteger(300000),
                             null,
                             objectList,
-                            transaccion.Id,
+                            existsDB?.Id ?? 0,
                             Tabla
                         );
+
+                        if (string.IsNullOrEmpty(transactionHash))
+                        {
+                            throw new Exception($"{_messageService.PostBFAError()}");
+                        }
+
+                        // Confirmar la transacción de la base de datos
+                        await transaction.CommitAsync();
+
+                        // Log Éxito
+                        var log = _logService.CrearLog(
+                            HttpContext,
+                            input.Hash,
+                            $"{_messageService.PostHashSuccess()}",
+                            null);
+                        _logger.LogInformation("{@Log}", log);
+
+                        // Retornar el DTO del hash
+                        return Ok(await this.GetHashDTO(hashHex, true));
+                    }
+                    catch (Exception ex)
+                    {
+                        // Revertir la transacción
+                        await transaction.RollbackAsync();
+
+                        // Log de error
+                        var logError = _logService.CrearLog(
+                            HttpContext,
+                            input.Hash,
+                            $"{_messageService.PostHashError()}. {ex.Message}",
+                            ex.StackTrace);
+                        _logger.LogError("{@Log}", logError);
+
+                        throw new Exception($"{_messageService.PostHashError()}. {ex.Message}. {ex.StackTrace}");
                     }
                 }
-
-                // Log Éxito
-                var log = _logService.CrearLog(
-                    HttpContext,
-                    input.Hash,
-                    $"{_messageService.PostHashSuccess()}",
-                    null);
-                _logger.LogInformation("{@Log}", log);
-
-                // Retornar el hash guardado
-                return Ok(await this.GetHashDTO(hashHex, false));
             }
             catch (Exception ex)
             {
@@ -354,7 +395,7 @@ namespace BFASenado.Controllers
                     ex.StackTrace);
                 _logger.LogError("{@Log}", log);
 
-                throw new Exception($"{_messageService.PostHashError}. {ex.Message}. {ex.StackTrace}");
+                throw new Exception($"{_messageService.PostHashError()}. {ex.Message}. {ex.StackTrace}");
             }
         }
 
@@ -417,6 +458,15 @@ namespace BFASenado.Controllers
 
                 _context.Transaccions.Add(transaccion);
                 await _context.SaveChangesAsync();
+
+                // Log Éxito
+                var log = _logService.CrearLog(
+                    HttpContext,
+                    hash,
+                    $"{_messageService.PostBaseDatosSuccess()}",
+                    null);
+                _logger.LogInformation("{@Log}", log);
+
                 return true;
             }
             catch (Exception ex)

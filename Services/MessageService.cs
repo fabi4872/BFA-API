@@ -36,12 +36,17 @@
             return "Hash guardado correctamente";
         }
 
+        public string PostBaseDatosSuccess()
+        {
+            return "Registro guardado en Base de Datos correctamente";
+        }
+
 
 
         // Error
         public string GetSha256HashError()
         {
-            return "Error al obtener el hash SHA256";
+            return "Error al obtener el hash SHA256 y Base64 del archivo";
         }
 
         public string GetBalanceError()
@@ -87,6 +92,11 @@
         public string PostBaseDatosError()
         {
             return "Error al guardar en Base de Datos";
+        }
+
+        public string PostBFAError()
+        {
+            return "Error al guardar en la BFA";
         }
 
         #endregion

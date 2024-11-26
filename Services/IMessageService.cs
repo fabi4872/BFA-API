@@ -8,6 +8,7 @@
         string GetHashSuccess();
         string GetHashesSuccess();
         string PostHashSuccess();
+        string PostBaseDatosSuccess();
 
 
 
@@ -22,5 +23,6 @@
         string GetHashesError();
         string GetBaseDatosError();
         string PostBaseDatosError();
+        string PostBFAError();
     }
 }
