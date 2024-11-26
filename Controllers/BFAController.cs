@@ -9,6 +9,7 @@ using BFASenado.DTO.HashDTO;
 using BFASenado.Services;
 using System.Security.Cryptography;
 using BFASenado.DTO.FileDTO;
+using System.Text;
 
 namespace BFASenado.Controllers
 {
@@ -77,6 +78,13 @@ namespace BFASenado.Controllers
             {
                 try
                 {
+                    bool nodoSincronizado = await this.IsNodeSynced();
+
+                    if (!nodoSincronizado)
+                    {
+                        throw new Exception($"{_messageService.GetSincronizacionBFAError()}");
+                    }
+
                     using (var memoryStream = new MemoryStream())
                     {
                         // Leer el archivo de manera asíncrona
@@ -131,6 +139,13 @@ namespace BFASenado.Controllers
         {
             try
             {
+                bool nodoSincronizado = await this.IsNodeSynced();
+
+                if (!nodoSincronizado)
+                {
+                    throw new Exception($"{_messageService.GetSincronizacionBFAError()}");
+                }
+
                 var web3 = new Web3(UrlNodoPrueba);
                 var balanceWei = await web3.Eth.GetBalance.SendRequestAsync(Sellador);
                 var balanceEther = Web3.Convert.FromWei(balanceWei);
@@ -165,6 +180,13 @@ namespace BFASenado.Controllers
         {
             try
             {
+                bool nodoSincronizado = await this.IsNodeSynced();
+
+                if (!nodoSincronizado)
+                {
+                    throw new Exception($"{_messageService.GetSincronizacionBFAError()}");
+                }
+
                 if (string.IsNullOrEmpty(hash.Trim()))
                 {
                     // Log
@@ -223,6 +245,13 @@ namespace BFASenado.Controllers
         {
             try
             {
+                bool nodoSincronizado = await this.IsNodeSynced();
+
+                if (!nodoSincronizado)
+                {
+                    throw new Exception($"{_messageService.GetSincronizacionBFAError()}");
+                }
+
                 var account = new Account(PrivateKey, ChainID);
                 var web3 = new Web3(account, UrlNodoPrueba);
                 List<HashDTO> hashes = new List<HashDTO>();
@@ -282,6 +311,13 @@ namespace BFASenado.Controllers
         {
             try
             {
+                bool nodoSincronizado = await this.IsNodeSynced();
+
+                if (!nodoSincronizado)
+                {
+                    throw new Exception($"{_messageService.GetSincronizacionBFAError()}");
+                }
+
                 if (input == null || string.IsNullOrEmpty(input.Hash.Trim()) || string.IsNullOrEmpty(input.Base64.Trim()))
                 {
                     // Log de formato incorrecto
@@ -402,6 +438,73 @@ namespace BFASenado.Controllers
 
 
         // Métodos privados
+        private async Task<bool> IsNodeSynced()
+        {
+            using var httpClient = new HttpClient();
+
+            var requestContent = new
+            {
+                jsonrpc = "2.0",
+                method = "eth_syncing",
+                @params = new object[] { },
+                id = 1
+            };
+
+            // Serializar el objeto a JSON
+            var jsonContent = new StringContent(
+                System.Text.Json.JsonSerializer.Serialize(requestContent),
+                Encoding.UTF8,
+                "application/json"
+            );
+
+            try
+            {
+                // Enviar la solicitud POST
+                var response = await httpClient.PostAsync(UrlNodoPrueba, jsonContent);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    // Leer la respuesta JSON
+                    var responseBody = await response.Content.ReadAsStringAsync();
+
+                    // Deserializar la respuesta
+                    var jsonResponse = System.Text.Json.JsonDocument.Parse(responseBody);
+
+                    // Extraer el campo "result"
+                    if (jsonResponse.RootElement.TryGetProperty("result", out var result))
+                    {
+                        // Si el resultado es "false", el nodo está sincronizado
+                        return result.ValueKind == System.Text.Json.JsonValueKind.False;
+                    }
+                }
+                else
+                {
+                    // Manejo de error si el servidor no responde correctamente
+                    // Log Error
+                    var log = _logService.CrearLog(
+                    HttpContext,
+                        null,
+                        $"{_messageService.GetSincronizacionBFAError()}. Error: {response.StatusCode} - {response.ReasonPhrase}",
+                        null);
+                    _logger.LogInformation("{@Log}", log);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejo de excepciones
+                // Log Error
+                var log = _logService.CrearLog(
+                HttpContext,
+                ex.StackTrace,
+                $"{_messageService.GetSincronizacionBFAError()}. {ex.Message}. {ex.StackTrace}",
+                    null);
+                _logger.LogInformation("{@Log}", log);
+            }
+
+            // Si no se puede determinar, asumimos que no está sincronizado
+            return false;
+        }
+
         private async Task<HashDTO?> GetHashDTO(string hash, bool showBase64)
         {
             if (!hash.StartsWith("0x"))

@@ -99,6 +99,11 @@
             return "Error al guardar en la BFA";
         }
 
+        public string GetSincronizacionBFAError()
+        {
+            return "Error de sincronización del nodo de la BFA";
+        }
+
         #endregion
     }
 }

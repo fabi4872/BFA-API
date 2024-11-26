@@ -1,6 +1,32 @@
 [
   {
     "ContainingType": "BFASenado.Controllers.BFAController",
+    "Method": "ArchivoData",
+    "RelativePath": "api/BFA/ArchivoData",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pdfFile",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BFASenado.DTO.FileDTO.FileDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BFASenado.Controllers.BFAController",
     "Method": "Balance",
     "RelativePath": "api/BFA/Balance",
     "HttpMethod": "GET",
@@ -82,32 +108,6 @@
     "ReturnTypes": [
       {
         "Type": "System.Collections.Generic.List\u00601[[BFASenado.DTO.HashDTO.HashDTO, BFASenado, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "BFASenado.Controllers.BFAController",
-    "Method": "UploadPdf",
-    "RelativePath": "api/BFA/Sha256Hash",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "pdfFile",
-        "Type": "Microsoft.AspNetCore.Http.IFormFile",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.String",
         "MediaTypes": [
           "text/plain",
           "application/json",

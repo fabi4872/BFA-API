@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\1. Archivos\\PROYECTOS\\BFA-API\\BFASenado.csproj": {}
+    "C:\\Proyectos\\BFAV2\\BFA-API\\BFASenado.csproj": {}
   },
   "projects": {
-    "C:\\1. Archivos\\PROYECTOS\\BFA-API\\BFASenado.csproj": {
+    "C:\\Proyectos\\BFAV2\\BFA-API\\BFASenado.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\1. Archivos\\PROYECTOS\\BFA-API\\BFASenado.csproj",
+        "projectUniqueName": "C:\\Proyectos\\BFAV2\\BFA-API\\BFASenado.csproj",
         "projectName": "BFASenado",
-        "projectPath": "C:\\1. Archivos\\PROYECTOS\\BFA-API\\BFASenado.csproj",
-        "packagesPath": "C:\\Users\\fabia\\.nuget\\packages\\",
-        "outputPath": "C:\\1. Archivos\\PROYECTOS\\BFA-API\\obj\\",
+        "projectPath": "C:\\Proyectos\\BFAV2\\BFA-API\\BFASenado.csproj",
+        "packagesPath": "C:\\Users\\fsalomone\\.nuget\\packages\\",
+        "outputPath": "C:\\Proyectos\\BFAV2\\BFA-API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\fabia\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\fsalomone\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -39,6 +39,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -107,7 +112,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     }
