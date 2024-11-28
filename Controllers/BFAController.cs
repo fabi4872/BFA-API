@@ -74,64 +74,123 @@ namespace BFASenado.Controllers
         [HttpPost("ArchivoData")]
         public async Task<ActionResult<FileDTO?>> ArchivoData(IFormFile pdfFile)
         {
-            if (pdfFile != null && pdfFile.Length > 0)
+            if (pdfFile == null || pdfFile.Length == 0)
             {
-                try
+                return BadRequest(_messageService.GetSha256HashError());
+            }
+
+            try
+            {
+                bool nodoDisponible = await this.IsNodeAvailable();
+                bool nodoSincronizado = await this.IsNodeSynced();
+
+                if (!nodoDisponible)
                 {
-                    bool nodoSincronizado = await this.IsNodeSynced();
-
-                    if (!nodoSincronizado)
-                    {
-                        throw new Exception($"{_messageService.GetSincronizacionBFAError()}");
-                    }
-
-                    using (var memoryStream = new MemoryStream())
-                    {
-                        // Leer el archivo de manera asíncrona
-                        await pdfFile.CopyToAsync(memoryStream);
-                        var pdfBytes = memoryStream.ToArray();
-
-                        // Calcular el hash de manera síncrona (SHA256 no es asíncrono)
-                        using (var sha256 = SHA256.Create())
-                        {
-                            byte[] hashBytes = sha256.ComputeHash(pdfBytes);
-                            string hash = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
-
-                            // Calcular Base64
-                            string base64 = Convert.ToBase64String(pdfBytes);
-
-                            // Log Éxito
-                            var log = _logService.CrearLog(
-                                HttpContext,
-                                null,
-                                $"{_messageService.GetSha256HashSuccess()}",
-                                null);
-                            _logger.LogInformation("{@Log}", log);
-
-                            // Retornar
-                            return Ok(new FileDTO()
-                            {
-                                HashSHA256 = hash,
-                                Base64 = base64
-                            });
-                        }
-                    }
+                    throw new InvalidOperationException($"{_messageService.GetDisponibilidadBFAError()}");
                 }
-                catch (Exception ex)
+                if (!nodoSincronizado)
                 {
-                    // Log Error
+                    throw new InvalidOperationException($"{_messageService.GetSincronizacionBFAError()}");
+                }
+
+                using (var memoryStream = new MemoryStream())
+                {
+                    // Leer archivo
+                    await pdfFile.CopyToAsync(memoryStream);
+                    var pdfBytes = memoryStream.ToArray();
+
+                    // Calcular Hash
+                    string hash = CalcularHashSHA256(pdfBytes);
+
+                    // Convertir a Base64
+                    string base64 = Convert.ToBase64String(pdfBytes);
+
+                    // Log Éxito
                     var log = _logService.CrearLog(
                         HttpContext,
                         null,
-                        $"{_messageService.GetSha256HashError()}. {ex.Message}",
-                        ex.StackTrace);
-                    _logger.LogError("{@Log}", log);
+                        $"{_messageService.GetSha256HashSuccess()}",
+                        null);
+                    _logger.LogInformation("{@Log}", log);
 
-                    throw new Exception($"{_messageService.GetSha256HashError()}. {ex.Message}. {ex.StackTrace}");
+                    // Retornar
+                    return Ok(new FileDTO()
+                    {
+                        HashSHA256 = hash,
+                        Base64 = base64
+                    });
                 }
             }
+            catch (Exception ex)
+            {
+                // Log Error
+                var log = _logService.CrearLog(
+                    HttpContext,
+                    null,
+                    $"{_messageService.GetSha256HashError()}. {ex.Message}",
+                    ex.StackTrace);
+                _logger.LogError("{@Log}", log);
 
-            return BadRequest(_messageService.GetSha256HashError());
+                throw new Exception($"{_messageService.GetSha256HashError()}. {ex.Message}. {ex.StackTrace}");
+            }
+        }
+
+        [HttpPost("SHA256ByBase64")]
+        public async Task<ActionResult<string>> SHA256ByBase64([FromBody] Base64InputDTO base64Input)
+        {
+            if (string.IsNullOrEmpty(base64Input?.Base64))
+            {
+                return BadRequest(_messageService.GetBase64InputErrorFormatoIncorrecto());
+            }
+
+            try
+            {
+                bool nodoDisponible = await this.IsNodeAvailable();
+                bool nodoSincronizado = await this.IsNodeSynced();
+
+                if (!nodoDisponible)
+                {
+                    throw new InvalidOperationException($"{_messageService.GetDisponibilidadBFAError()}");
+                }
+                if (!nodoSincronizado)
+                {
+                    throw new InvalidOperationException($"{_messageService.GetSincronizacionBFAError()}");
+                }
+
+                // Convertir Base64 a arreglo de bytes
+                byte[] fileBytes = Convert.FromBase64String(base64Input.Base64);
+
+                // Calcular el hash SHA-256 utilizando el método separado
+                string hash = CalcularHashSHA256(fileBytes);
+
+                // Log Éxito
+                var log = _logService.CrearLog(
+                    HttpContext,
+                    null,
+                    $"{_messageService.GetSha256HashSuccess()}",
+                    null);
+                _logger.LogInformation("{@Log}", log);
+
+                // Retornar el hash
+                return Ok(hash);
+            }
+            catch (Exception ex)
+            {
+                // Determinar si el error es de formato inválido
+                string errorMessage = ex is FormatException
+                    ? _messageService.GetBase64InputErrorFormatoIncorrecto()
+                    : _messageService.GetSha256HashError();
+
+                // Log Error
+                var log = _logService.CrearLog(
+                    HttpContext,
+                    null,
+                    $"{errorMessage}. {ex.Message}",
+                    ex.StackTrace);
+                _logger.LogError("{@Log}", log);
+
+                throw new Exception($"{errorMessage}. {ex.Message}. {ex.StackTrace}");
+            }
         }
 
         [HttpGet("Balance")]
@@ -139,11 +198,16 @@ namespace BFASenado.Controllers
         {
             try
             {
+                bool nodoDisponible = await this.IsNodeAvailable();
                 bool nodoSincronizado = await this.IsNodeSynced();
 
+                if (!nodoDisponible)
+                {
+                    throw new InvalidOperationException($"{_messageService.GetDisponibilidadBFAError()}");
+                }
                 if (!nodoSincronizado)
                 {
-                    throw new Exception($"{_messageService.GetSincronizacionBFAError()}");
+                    throw new InvalidOperationException($"{_messageService.GetSincronizacionBFAError()}");
                 }
 
                 var web3 = new Web3(UrlNodoPrueba);
@@ -180,11 +244,16 @@ namespace BFASenado.Controllers
         {
             try
             {
+                bool nodoDisponible = await this.IsNodeAvailable();
                 bool nodoSincronizado = await this.IsNodeSynced();
 
+                if (!nodoDisponible)
+                {
+                    throw new InvalidOperationException($"{_messageService.GetDisponibilidadBFAError()}");
+                }
                 if (!nodoSincronizado)
                 {
-                    throw new Exception($"{_messageService.GetSincronizacionBFAError()}");
+                    throw new InvalidOperationException($"{_messageService.GetSincronizacionBFAError()}");
                 }
 
                 if (string.IsNullOrEmpty(hash.Trim()))
@@ -245,11 +314,16 @@ namespace BFASenado.Controllers
         {
             try
             {
+                bool nodoDisponible = await this.IsNodeAvailable();
                 bool nodoSincronizado = await this.IsNodeSynced();
 
+                if (!nodoDisponible)
+                {
+                    throw new InvalidOperationException($"{_messageService.GetDisponibilidadBFAError()}");
+                }
                 if (!nodoSincronizado)
                 {
-                    throw new Exception($"{_messageService.GetSincronizacionBFAError()}");
+                    throw new InvalidOperationException($"{_messageService.GetSincronizacionBFAError()}");
                 }
 
                 var account = new Account(PrivateKey, ChainID);
@@ -311,11 +385,16 @@ namespace BFASenado.Controllers
         {
             try
             {
+                bool nodoDisponible = await this.IsNodeAvailable();
                 bool nodoSincronizado = await this.IsNodeSynced();
 
+                if (!nodoDisponible)
+                {
+                    throw new InvalidOperationException($"{_messageService.GetDisponibilidadBFAError()}");
+                }
                 if (!nodoSincronizado)
                 {
-                    throw new Exception($"{_messageService.GetSincronizacionBFAError()}");
+                    throw new InvalidOperationException($"{_messageService.GetSincronizacionBFAError()}");
                 }
 
                 if (input == null || string.IsNullOrEmpty(input.Hash.Trim()) || string.IsNullOrEmpty(input.Base64.Trim()))
@@ -438,6 +517,52 @@ namespace BFASenado.Controllers
 
 
         // Métodos privados
+        private string CalcularHashSHA256(byte[] data)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                byte[] hashBytes = sha256.ComputeHash(data);
+                return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+            }
+        }
+
+        private async Task<bool> IsNodeAvailable()
+        {
+            using var httpClient = new HttpClient();
+            try
+            {
+                // Realizar una solicitud simple GET para verificar disponibilidad
+                var response = await httpClient.GetAsync(UrlNodoPrueba);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true; // Nodo está disponible
+                }
+                else
+                {
+                    // Log error
+                    var log = _logService.CrearLog(
+                        HttpContext,
+                        null,
+                        $"{_messageService.GetDisponibilidadBFAError()}. Error: {response.StatusCode} - {response.ReasonPhrase}",
+                        null);
+                    _logger.LogInformation("{@Log}", log);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log Error
+                var log = _logService.CrearLog(
+                    HttpContext,
+                    ex.StackTrace,
+                    $"{_messageService.GetDisponibilidadBFAError()}. {ex.Message}. {ex.StackTrace}",
+                    null);
+                _logger.LogInformation("{@Log}", log);
+            }
+
+            return false; // Nodo no está disponible
+        }
+
         private async Task<bool> IsNodeSynced()
         {
             using var httpClient = new HttpClient();
@@ -491,7 +616,6 @@ namespace BFASenado.Controllers
             }
             catch (Exception ex)
             {
-                // Manejo de excepciones
                 // Log Error
                 var log = _logService.CrearLog(
                 HttpContext,
@@ -501,7 +625,7 @@ namespace BFASenado.Controllers
                 _logger.LogInformation("{@Log}", log);
             }
 
-            // Si no se puede determinar, asumimos que no está sincronizado
+            // Si no se puede determinar
             return false;
         }
 

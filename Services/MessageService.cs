@@ -104,6 +104,16 @@
             return "Error de sincronización del nodo de la BFA";
         }
 
+        public string GetDisponibilidadBFAError()
+        {
+            return "El nodo de la BFA no está disponible";
+        }
+
+        public string GetBase64InputErrorFormatoIncorrecto()
+        {
+            return "El base64 tiene un formato incorrecto";
+        }
+
         #endregion
     }
 }

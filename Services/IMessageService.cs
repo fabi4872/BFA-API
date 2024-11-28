@@ -25,5 +25,7 @@
         string PostBaseDatosError();
         string PostBFAError();
         string GetSincronizacionBFAError();
+        string GetDisponibilidadBFAError();
+        string GetBase64InputErrorFormatoIncorrecto();
     }
 }

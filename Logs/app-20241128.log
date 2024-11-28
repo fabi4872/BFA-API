@@ -1,0 +1,631 @@
+2024-11-28T00:10:10.8285920-03:00  [INF] Now listening on: "https://localhost:7070" (d826f4b8)
+2024-11-28T00:10:10.8376705-03:00  [INF] Now listening on: "http://localhost:5232" (d826f4b8)
+2024-11-28T00:10:10.8731546-03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2024-11-28T00:10:10.8851077-03:00  [INF] Hosting environment: "Development" (c3307c92)
+2024-11-28T00:10:10.8874764-03:00  [INF] Content root path: "C:\1. Archivos\PROYECTOS\BFAV2\BFA-API\" (b5d60022)
+2024-11-28T00:10:11.4248640-03:00 0HN8FB8LPTUAT:00000001 [INF] Request starting HTTP/2 GET https://localhost:7070/swagger/index.html - - (ca22a1cb)
+2024-11-28T00:10:12.0931746-03:00 0HN8FB8LPTUAT:00000001 [INF] Request finished HTTP/2 GET https://localhost:7070/swagger/index.html - - - 200 - text/html;charset=utf-8 679.1328ms (791a596a)
+2024-11-28T00:10:12.1451565-03:00 0HN8FB8LPTUAT:00000003 [INF] Request starting HTTP/2 GET https://localhost:7070/_framework/aspnetcore-browser-refresh.js - - (ca22a1cb)
+2024-11-28T00:10:12.1510301-03:00 0HN8FB8LPTUAT:00000003 [INF] Request finished HTTP/2 GET https://localhost:7070/_framework/aspnetcore-browser-refresh.js - - - 200 11988 application/javascript;+charset=utf-8 5.8979ms (791a596a)
+2024-11-28T00:10:13.0351708-03:00 0HN8FB8LPTUAT:00000005 [INF] Request starting HTTP/2 GET https://localhost:7070/_vs/browserLink - - (ca22a1cb)
+2024-11-28T00:10:13.1078810-03:00 0HN8FB8LPTUAT:00000005 [INF] Request finished HTTP/2 GET https://localhost:7070/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 73.2735ms (791a596a)
+2024-11-28T00:10:13.2338384-03:00 0HN8FB8LPTUAT:00000007 [INF] Request starting HTTP/2 GET https://localhost:7070/swagger/v1/swagger.json - - (ca22a1cb)
+2024-11-28T00:10:13.4427247-03:00 0HN8FB8LPTUAT:00000007 [INF] Request finished HTTP/2 GET https://localhost:7070/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 208.8599ms (791a596a)
+2024-11-28T00:10:18.7923717-03:00 0HN8FB8LPTUAT:00000009 [INF] Request starting HTTP/2 GET https://localhost:7070/api/BFA/Balance - - (ca22a1cb)
+2024-11-28T00:10:18.8938287-03:00 0HN8FB8LPTUAT:00000009 [INF] Executing endpoint '"BFASenado.Controllers.BFAController.Balance (BFASenado)"' (500cc934)
+2024-11-28T00:10:18.9596642-03:00 0HN8FB8LPTUAT:00000009 [INF] Route matched with "{action = \"Balance\", controller = \"BFA\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Decimal]] Balance()" on controller "BFASenado.Controllers.BFAController" ("BFASenado"). (122b2fdf)
+2024-11-28T00:10:20.7347350-03:00 0HN8FB8LPTUAT:00000009 [INF] LogDTO { Fecha: 11/28/2024 00:10:20, Endpoint: "/api/BFA/Balance", MetodoHttp: "GET", DatosRecibidos: null, Mensaje: "Balance/gas de la cuenta obtenido correctamente", Detalles: null } (60b9aab8)
+2024-11-28T00:10:20.7828172-03:00 0HN8FB8LPTUAT:00000009 [INF] Executing "OkObjectResult", writing value of type '"System.Decimal"'. (605b4265)
+2024-11-28T00:10:20.8638036-03:00 0HN8FB8LPTUAT:00000009 [INF] Executed action "BFASenado.Controllers.BFAController.Balance (BFASenado)" in 1887.6384ms (afa2e885)
+2024-11-28T00:10:20.8663721-03:00 0HN8FB8LPTUAT:00000009 [INF] Executed endpoint '"BFASenado.Controllers.BFAController.Balance (BFASenado)"' (99874f2b)
+2024-11-28T00:10:20.8784074-03:00 0HN8FB8LPTUAT:00000009 [INF] Request finished HTTP/2 GET https://localhost:7070/api/BFA/Balance - - - 200 11 application/json;+charset=utf-8 2085.9768ms (791a596a)
+2024-11-28T00:10:33.8391541-03:00 0HN8FB8LPTUAT:0000000B [INF] Request starting HTTP/2 GET https://localhost:7070/api/BFA/Hashes - - (ca22a1cb)
+2024-11-28T00:10:33.8420824-03:00 0HN8FB8LPTUAT:0000000B [INF] Executing endpoint '"BFASenado.Controllers.BFAController.GetHashes (BFASenado)"' (500cc934)
+2024-11-28T00:10:33.8461640-03:00 0HN8FB8LPTUAT:0000000B [INF] Route matched with "{action = \"GetHashes\", controller = \"BFA\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[BFASenado.DTO.HashDTO.HashDTO]]] GetHashes()" on controller "BFASenado.Controllers.BFAController" ("BFASenado"). (122b2fdf)
+2024-11-28T00:10:54.4927752-03:00 0HN8FB8LPTUAT:0000000B [ERR] An error occurred using the connection to database '"BFASenado"' on server '"(localdb)\BFASenado"'. (5fc3407c)
+2024-11-28T00:10:54.6883977-03:00 0HN8FB8LPTUAT:0000000B [ERR] An exception occurred while iterating over the results of a query for context type '"BFASenado.Models.BFAContext"'."
+""Microsoft.Data.SqlClient.SqlException (0x80131904): A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: SNI_PN11, error: 50 - Local Database Runtime error occurred. La instancia de LocalDB especificada no existe.
+)
+ ---> System.ComponentModel.Win32Exception (0x89C50107): Unknown error (0x89c50107)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.Connect(ServerInfo serverInfo, SqlInternalConnectionTds connHandler, Boolean ignoreSniOpenTimeout, Int64 timerExpire, SqlConnectionString connectionOptions, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.AttemptOneLogin(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean ignoreSniOpenTimeout, TimeoutTimer timeout, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.LoginNoFailover(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString connectionOptions, SqlCredential credential, TimeoutTimer timeout)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.OpenLoginEnlist(TimeoutTimer timeout, SqlConnectionString connectionOptions, SqlCredential credential, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling, String accessToken, DbConnectionPool pool)
+   at Microsoft.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.WaitForPendingOpen()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:00000000-0000-0000-0000-000000000000
+Error Number:-1983577849,State:0,Class:20" (f5c7ac34)
+Microsoft.Data.SqlClient.SqlException (0x80131904): A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: SNI_PN11, error: 50 - Local Database Runtime error occurred. La instancia de LocalDB especificada no existe.
+)
+ ---> System.ComponentModel.Win32Exception (0x89C50107): Unknown error (0x89c50107)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.Connect(ServerInfo serverInfo, SqlInternalConnectionTds connHandler, Boolean ignoreSniOpenTimeout, Int64 timerExpire, SqlConnectionString connectionOptions, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.AttemptOneLogin(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean ignoreSniOpenTimeout, TimeoutTimer timeout, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.LoginNoFailover(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString connectionOptions, SqlCredential credential, TimeoutTimer timeout)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.OpenLoginEnlist(TimeoutTimer timeout, SqlConnectionString connectionOptions, SqlCredential credential, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling, String accessToken, DbConnectionPool pool)
+   at Microsoft.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.WaitForPendingOpen()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+ClientConnectionId:00000000-0000-0000-0000-000000000000
+Error Number:-1983577849,State:0,Class:20
+2024-11-28T00:10:54.9093406-03:00 0HN8FB8LPTUAT:0000000B [ERR] LogDTO { Fecha: 11/28/2024 00:10:54, Endpoint: "/api/BFA/Hashes", MetodoHttp: "GET", DatosRecibidos: "0x78c5047eb68c4a4ac10f86675885c0d8eeec6df3dd24005eda61dc1c805afa0", Mensaje: "Error al consultar en Base de Datos. A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: SNI_PN11, error: 50 - Local Database Runtime error occurred. La instancia de LocalDB especificada no existe.
+)", Detalles: "   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.Connect(ServerInfo serverInfo, SqlInternalConnectionTds connHandler, Boolean ignoreSniOpenTimeout, Int64 timerExpire, SqlConnectionString connectionOptions, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.AttemptOneLogin(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean ignoreSniOpenTimeout, TimeoutTimer timeout, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.LoginNoFailover(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString connectionOptions, SqlCredential credential, TimeoutTimer timeout)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.OpenLoginEnlist(TimeoutTimer timeout, SqlConnectionString connectionOptions, SqlCredential credential, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling, String accessToken, DbConnectionPool pool)
+   at Microsoft.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.WaitForPendingOpen()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at BFASenado.Controllers.BFAController.ObtenerTransaccionEnDB(String hash) in C:\1. Archivos\PROYECTOS\BFAV2\BFA-API\Controllers\BFAController.cs:line 717" } (60b9aab8)
+2024-11-28T00:10:55.1760899-03:00 0HN8FB8LPTUAT:0000000B [ERR] LogDTO { Fecha: 11/28/2024 00:10:55, Endpoint: "/api/BFA/Hashes", MetodoHttp: "GET", DatosRecibidos: null, Mensaje: "Error al obtener los hashes. Error al consultar en Base de Datos. A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: SNI_PN11, error: 50 - Local Database Runtime error occurred. La instancia de LocalDB especificada no existe.
+).    at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.Connect(ServerInfo serverInfo, SqlInternalConnectionTds connHandler, Boolean ignoreSniOpenTimeout, Int64 timerExpire, SqlConnectionString connectionOptions, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.AttemptOneLogin(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean ignoreSniOpenTimeout, TimeoutTimer timeout, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.LoginNoFailover(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString connectionOptions, SqlCredential credential, TimeoutTimer timeout)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.OpenLoginEnlist(TimeoutTimer timeout, SqlConnectionString connectionOptions, SqlCredential credential, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling, String accessToken, DbConnectionPool pool)
+   at Microsoft.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.WaitForPendingOpen()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at BFASenado.Controllers.BFAController.ObtenerTransaccionEnDB(String hash) in C:\1. Archivos\PROYECTOS\BFAV2\BFA-API\Controllers\BFAController.cs:line 717", Detalles: "   at BFASenado.Controllers.BFAController.ObtenerTransaccionEnDB(String hash) in C:\1. Archivos\PROYECTOS\BFAV2\BFA-API\Controllers\BFAController.cs:line 729
+   at BFASenado.Controllers.BFAController.GetHashDTO(String hash, Boolean showBase64) in C:\1. Archivos\PROYECTOS\BFAV2\BFA-API\Controllers\BFAController.cs:line 660
+   at BFASenado.Controllers.BFAController.GetHashes() in C:\1. Archivos\PROYECTOS\BFAV2\BFA-API\Controllers\BFAController.cs:line 351" } (60b9aab8)
+2024-11-28T00:10:55.2963589-03:00 0HN8FB8LPTUAT:0000000B [INF] Executed action "BFASenado.Controllers.BFAController.GetHashes (BFASenado)" in 21450.0345ms (afa2e885)
+2024-11-28T00:10:55.3337364-03:00 0HN8FB8LPTUAT:0000000B [INF] Executed endpoint '"BFASenado.Controllers.BFAController.GetHashes (BFASenado)"' (99874f2b)
+2024-11-28T00:10:55.4624141-03:00 0HN8FB8LPTUAT:0000000B [ERR] An unhandled exception has occurred while executing the request. (48a46595)
+System.Exception: Error al obtener los hashes. Error al consultar en Base de Datos. A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: SNI_PN11, error: 50 - Local Database Runtime error occurred. La instancia de LocalDB especificada no existe.
+).    at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.Connect(ServerInfo serverInfo, SqlInternalConnectionTds connHandler, Boolean ignoreSniOpenTimeout, Int64 timerExpire, SqlConnectionString connectionOptions, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.AttemptOneLogin(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean ignoreSniOpenTimeout, TimeoutTimer timeout, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.LoginNoFailover(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString connectionOptions, SqlCredential credential, TimeoutTimer timeout)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.OpenLoginEnlist(TimeoutTimer timeout, SqlConnectionString connectionOptions, SqlCredential credential, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling, String accessToken, DbConnectionPool pool)
+   at Microsoft.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.WaitForPendingOpen()
+--- End of stack trace from previous location ---
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenInternalAsync(Boolean errorsExpected, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.OpenAsync(CancellationToken cancellationToken, Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at BFASenado.Controllers.BFAController.ObtenerTransaccionEnDB(String hash) in C:\1. Archivos\PROYECTOS\BFAV2\BFA-API\Controllers\BFAController.cs:line 717.    at BFASenado.Controllers.BFAController.ObtenerTransaccionEnDB(String hash) in C:\1. Archivos\PROYECTOS\BFAV2\BFA-API\Controllers\BFAController.cs:line 729
+   at BFASenado.Controllers.BFAController.GetHashDTO(String hash, Boolean showBase64) in C:\1. Archivos\PROYECTOS\BFAV2\BFA-API\Controllers\BFAController.cs:line 660
+   at BFASenado.Controllers.BFAController.GetHashes() in C:\1. Archivos\PROYECTOS\BFAV2\BFA-API\Controllers\BFAController.cs:line 351
+   at BFASenado.Controllers.BFAController.GetHashes() in C:\1. Archivos\PROYECTOS\BFAV2\BFA-API\Controllers\BFAController.cs:line 379
+   at lambda_method34(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at ElmahCore.Mvc.ErrorLogMiddleware.InvokeAsync(HttpContext context)
+   at ElmahCore.Mvc.ErrorLogMiddleware.InvokeAsync(HttpContext context)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2024-11-28T00:10:55.5329039-03:00 0HN8FB8LPTUAT:0000000B [INF] Request finished HTTP/2 GET https://localhost:7070/api/BFA/Hashes - - - 500 - text/plain;+charset=utf-8 21694.5482ms (791a596a)
+2024-11-28T00:13:47.7656491-03:00  [INF] Now listening on: "https://localhost:7070" (d826f4b8)
+2024-11-28T00:13:47.7771161-03:00  [INF] Now listening on: "http://localhost:5232" (d826f4b8)
+2024-11-28T00:13:47.7999896-03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2024-11-28T00:13:47.8134861-03:00  [INF] Hosting environment: "Development" (c3307c92)
+2024-11-28T00:13:47.8172480-03:00  [INF] Content root path: "C:\1. Archivos\PROYECTOS\BFAV2\BFA-API\" (b5d60022)
+2024-11-28T00:13:48.6117189-03:00 0HN8FBAMH7EU5:00000001 [INF] Request starting HTTP/2 GET https://localhost:7070/swagger/index.html - - (ca22a1cb)
+2024-11-28T00:13:49.2012478-03:00 0HN8FBAMH7EU5:00000001 [INF] Request finished HTTP/2 GET https://localhost:7070/swagger/index.html - - - 200 - text/html;charset=utf-8 591.8994ms (791a596a)
+2024-11-28T00:13:49.2478515-03:00 0HN8FBAMH7EU5:00000003 [INF] Request starting HTTP/2 GET https://localhost:7070/_framework/aspnetcore-browser-refresh.js - - (ca22a1cb)
+2024-11-28T00:13:49.2573070-03:00 0HN8FBAMH7EU5:00000003 [INF] Request finished HTTP/2 GET https://localhost:7070/_framework/aspnetcore-browser-refresh.js - - - 200 11988 application/javascript;+charset=utf-8 9.3865ms (791a596a)
+2024-11-28T00:13:49.8122423-03:00 0HN8FBAMH7EU5:00000005 [INF] Request starting HTTP/2 GET https://localhost:7070/_vs/browserLink - - (ca22a1cb)
+2024-11-28T00:13:49.8605710-03:00 0HN8FBAMH7EU5:00000005 [INF] Request finished HTTP/2 GET https://localhost:7070/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 48.3068ms (791a596a)
+2024-11-28T00:13:49.9838181-03:00 0HN8FBAMH7EU5:00000007 [INF] Request starting HTTP/2 GET https://localhost:7070/swagger/v1/swagger.json - - (ca22a1cb)
+2024-11-28T00:13:50.2117820-03:00 0HN8FBAMH7EU5:00000007 [INF] Request finished HTTP/2 GET https://localhost:7070/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 228.1501ms (791a596a)
+2024-11-28T00:13:55.3224655-03:00 0HN8FBAMH7EU5:00000009 [INF] Request starting HTTP/2 GET https://localhost:7070/api/BFA/Hashes - - (ca22a1cb)
+2024-11-28T00:13:55.4372180-03:00 0HN8FBAMH7EU5:00000009 [INF] Executing endpoint '"BFASenado.Controllers.BFAController.GetHashes (BFASenado)"' (500cc934)
+2024-11-28T00:13:55.5041674-03:00 0HN8FBAMH7EU5:00000009 [INF] Route matched with "{action = \"GetHashes\", controller = \"BFA\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[BFASenado.DTO.HashDTO.HashDTO]]] GetHashes()" on controller "BFASenado.Controllers.BFAController" ("BFASenado"). (122b2fdf)
+2024-11-28T00:14:04.0630192-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("281"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:04.6489735-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("44"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:04.7634868-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:04.8534308-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:04.9582090-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("2"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:05.0604777-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("2"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:05.1505204-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("2"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:05.2495854-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("2"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:05.4571241-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("38"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:05.5526550-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("2"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:05.6364379-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("2"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:05.7575027-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("2"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:05.8475424-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("2"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:05.9498032-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:06.0490666-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:06.1406111-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("2"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:06.2433161-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:06.3375889-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:06.4352672-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:06.5420379-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("4"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:06.6515069-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("2"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:06.7580186-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("2"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:06.8668509-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("2"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:07.1146151-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("2"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:07.3412576-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("2"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:07.5361008-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:07.7260693-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:07.9317449-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:08.1114919-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("2"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:08.3189609-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("2"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:08.5166180-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:08.7569123-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("2"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:08.9713576-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:09.1649258-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:09.3546573-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:09.6272744-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("2"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:09.8231394-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:09.9954322-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:10.1711525-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("2"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:10.2650178-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("5"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:10.3521573-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:10.4707470-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:10.5596700-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed DbCommand ("2"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:14:10.5845675-03:00 0HN8FBAMH7EU5:00000009 [INF] LogDTO { Fecha: 11/28/2024 00:14:10, Endpoint: "/api/BFA/Hashes", MetodoHttp: "GET", DatosRecibidos: null, Mensaje: "Hashes obtenidos correctamente", Detalles: null } (60b9aab8)
+2024-11-28T00:14:10.6182445-03:00 0HN8FBAMH7EU5:00000009 [INF] Executing "OkObjectResult", writing value of type '"System.Collections.Generic.List`1[[BFASenado.DTO.HashDTO.HashDTO, BFASenado, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'. (605b4265)
+2024-11-28T00:14:10.7168683-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed action "BFASenado.Controllers.BFAController.GetHashes (BFASenado)" in 15194.5205ms (afa2e885)
+2024-11-28T00:14:10.7191523-03:00 0HN8FBAMH7EU5:00000009 [INF] Executed endpoint '"BFASenado.Controllers.BFAController.GetHashes (BFASenado)"' (99874f2b)
+2024-11-28T00:14:10.7501896-03:00 0HN8FBAMH7EU5:00000009 [INF] Request finished HTTP/2 GET https://localhost:7070/api/BFA/Hashes - - - 200 10912 application/json;+charset=utf-8 15427.8722ms (791a596a)
+2024-11-28T00:14:51.8608083-03:00 0HN8FBAMH7EU5:0000000B [INF] Request starting HTTP/2 POST https://localhost:7070/api/BFA/ArchivoData multipart/form-data;+boundary=----WebKitFormBoundaryOMBTaUNGCRlNVfj6 180741 (ca22a1cb)
+2024-11-28T00:14:51.9491009-03:00 0HN8FBAMH7EU5:0000000B [INF] Executing endpoint '"BFASenado.Controllers.BFAController.ArchivoData (BFASenado)"' (500cc934)
+2024-11-28T00:14:51.9817493-03:00 0HN8FBAMH7EU5:0000000B [INF] Route matched with "{action = \"ArchivoData\", controller = \"BFA\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[BFASenado.DTO.FileDTO.FileDTO]] ArchivoData(Microsoft.AspNetCore.Http.IFormFile)" on controller "BFASenado.Controllers.BFAController" ("BFASenado"). (122b2fdf)
+2024-11-28T00:14:52.7401760-03:00 0HN8FBAMH7EU5:0000000B [INF] LogDTO { Fecha: 11/28/2024 00:14:52, Endpoint: "/api/BFA/ArchivoData", MetodoHttp: "POST", DatosRecibidos: null, Mensaje: "Hash SHA256 obtenido correctamente", Detalles: null } (60b9aab8)
+2024-11-28T00:14:52.7436079-03:00 0HN8FBAMH7EU5:0000000B [INF] Executing "OkObjectResult", writing value of type '"BFASenado.DTO.FileDTO.FileDTO"'. (605b4265)
+2024-11-28T00:14:52.8170568-03:00 0HN8FBAMH7EU5:0000000B [INF] Executed action "BFASenado.Controllers.BFAController.ArchivoData (BFASenado)" in 835.0861ms (afa2e885)
+2024-11-28T00:14:52.8172373-03:00 0HN8FBAMH7EU5:0000000B [INF] Executed endpoint '"BFASenado.Controllers.BFAController.ArchivoData (BFASenado)"' (99874f2b)
+2024-11-28T00:14:52.8226291-03:00 0HN8FBAMH7EU5:0000000B [INF] Request finished HTTP/2 POST https://localhost:7070/api/BFA/ArchivoData multipart/form-data;+boundary=----WebKitFormBoundaryOMBTaUNGCRlNVfj6 180741 - 200 240793 application/json;+charset=utf-8 962.1077ms (791a596a)
+2024-11-28T00:15:28.4367669-03:00 0HN8FBAMH7EU5:0000000D [INF] Request starting HTTP/2 POST https://localhost:7070/api/BFA/GuardarHash application/json-patch+json 240796 (ca22a1cb)
+2024-11-28T00:15:28.4629013-03:00 0HN8FBAMH7EU5:0000000D [INF] Executing endpoint '"BFASenado.Controllers.BFAController.GuardarHash (BFASenado)"' (500cc934)
+2024-11-28T00:15:28.4745999-03:00 0HN8FBAMH7EU5:0000000D [INF] Route matched with "{action = \"GuardarHash\", controller = \"BFA\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[BFASenado.DTO.HashDTO.HashDTO]] GuardarHash(BFASenado.DTO.HashDTO.GuardarHashDTO)" on controller "BFASenado.Controllers.BFAController" ("BFASenado"). (122b2fdf)
+2024-11-28T00:15:28.6805423-03:00 0HN8FBAMH7EU5:0000000D [INF] Executed DbCommand ("10"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:15:29.2042740-03:00 0HN8FBAMH7EU5:0000000D [WRN] Savepoints are disabled because Multiple Active Result Sets (MARS) is enabled. If 'SaveChanges' fails, then the transaction cannot be automatically rolled back to a known clean state. Instead, the transaction should be rolled back by the application before retrying 'SaveChanges'. See https://go.microsoft.com/fwlink/?linkid=2149338 for more information and examples. To identify the code which triggers this warning, call 'ConfigureWarnings(w => w.Throw(SqlServerEventId.SavepointsDisabledBecauseOfMARS))'. (f90d6462)
+2024-11-28T00:15:29.2847563-03:00 0HN8FBAMH7EU5:0000000D [INF] Executed DbCommand ("56"ms) [Parameters=["@p0='?' (Size = -1) (DbType = AnsiString), @p1='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Transaccion] ([Base64], [Hash])
+OUTPUT INSERTED.[Id]
+VALUES (@p0, @p1);" (0723d8ff)
+2024-11-28T00:15:29.4132958-03:00 0HN8FBAMH7EU5:0000000D [INF] LogDTO { Fecha: 11/28/2024 00:15:29, Endpoint: "/api/BFA/GuardarHash", MetodoHttp: "POST", DatosRecibidos: "0x081146562129E61FCD827B3360AACAF953C0D11274CFBCCC0DA6F1A804682E976", Mensaje: "Registro guardado en Base de Datos correctamente", Detalles: null } (60b9aab8)
+2024-11-28T00:15:29.4199144-03:00 0HN8FBAMH7EU5:0000000D [INF] Executed DbCommand ("1"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:15:30.1077289-03:00 0HN8FBAMH7EU5:0000000D [INF] LogDTO { Fecha: 11/28/2024 00:15:30, Endpoint: "/api/BFA/GuardarHash", MetodoHttp: "POST", DatosRecibidos: "81146562129e61fcd827b3360aacaf953c0d11274cfbccc0da6f1a804682e976", Mensaje: "Hash guardado correctamente", Detalles: null } (60b9aab8)
+2024-11-28T00:15:30.1689736-03:00 0HN8FBAMH7EU5:0000000D [INF] Executing "OkObjectResult", writing value of type '"null"'. (605b4265)
+2024-11-28T00:15:30.1691630-03:00 0HN8FBAMH7EU5:0000000D [INF] Executed action "BFASenado.Controllers.BFAController.GuardarHash (BFASenado)" in 1694.4144ms (afa2e885)
+2024-11-28T00:15:30.1692436-03:00 0HN8FBAMH7EU5:0000000D [INF] Executed endpoint '"BFASenado.Controllers.BFAController.GuardarHash (BFASenado)"' (99874f2b)
+2024-11-28T00:15:30.1714424-03:00 0HN8FBAMH7EU5:0000000D [INF] Request finished HTTP/2 POST https://localhost:7070/api/BFA/GuardarHash application/json-patch+json 240796 - 204 0 - 1734.4234ms (791a596a)
+2024-11-28T00:15:40.7702514-03:00 0HN8FBAMH7EU5:0000000F [INF] Request starting HTTP/2 POST https://localhost:7070/api/BFA/GuardarHash application/json-patch+json 240796 (ca22a1cb)
+2024-11-28T00:15:40.9080285-03:00 0HN8FBAMH7EU5:0000000F [INF] Executing endpoint '"BFASenado.Controllers.BFAController.GuardarHash (BFASenado)"' (500cc934)
+2024-11-28T00:15:40.9083787-03:00 0HN8FBAMH7EU5:0000000F [INF] Route matched with "{action = \"GuardarHash\", controller = \"BFA\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[BFASenado.DTO.HashDTO.HashDTO]] GuardarHash(BFASenado.DTO.HashDTO.GuardarHashDTO)" on controller "BFASenado.Controllers.BFAController" ("BFASenado"). (122b2fdf)
+2024-11-28T00:15:41.1710241-03:00 0HN8FBAMH7EU5:0000000F [INF] Executed DbCommand ("2"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:15:41.2464023-03:00 0HN8FBAMH7EU5:0000000F [INF] LogDTO { Fecha: 11/28/2024 00:15:41, Endpoint: "/api/BFA/GuardarHash", MetodoHttp: "POST", DatosRecibidos: "81146562129e61fcd827b3360aacaf953c0d11274cfbccc0da6f1a804682e976", Mensaje: "El hash ya existe", Detalles: null } (60b9aab8)
+2024-11-28T00:15:41.2469554-03:00 0HN8FBAMH7EU5:0000000F [INF] Executing "BadRequestObjectResult", writing value of type '"System.String"'. (605b4265)
+2024-11-28T00:15:41.2475055-03:00 0HN8FBAMH7EU5:0000000F [INF] Executed action "BFASenado.Controllers.BFAController.GuardarHash (BFASenado)" in 339.0315ms (afa2e885)
+2024-11-28T00:15:41.2476073-03:00 0HN8FBAMH7EU5:0000000F [INF] Executed endpoint '"BFASenado.Controllers.BFAController.GuardarHash (BFASenado)"' (99874f2b)
+2024-11-28T00:15:41.2484452-03:00 0HN8FBAMH7EU5:0000000F [INF] Request finished HTTP/2 POST https://localhost:7070/api/BFA/GuardarHash application/json-patch+json 240796 - 400 - text/plain;+charset=utf-8 479.1628ms (791a596a)
+2024-11-28T00:15:57.4222296-03:00 0HN8FBAMH7EU5:00000011 [INF] Request starting HTTP/2 GET https://localhost:7070/api/BFA/Hashes - - (ca22a1cb)
+2024-11-28T00:15:57.4224467-03:00 0HN8FBAMH7EU5:00000011 [INF] Executing endpoint '"BFASenado.Controllers.BFAController.GetHashes (BFASenado)"' (500cc934)
+2024-11-28T00:15:57.4225512-03:00 0HN8FBAMH7EU5:00000011 [INF] Route matched with "{action = \"GetHashes\", controller = \"BFA\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[BFASenado.DTO.HashDTO.HashDTO]]] GetHashes()" on controller "BFASenado.Controllers.BFAController" ("BFASenado"). (122b2fdf)
+2024-11-28T00:15:57.6891097-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("2"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:15:57.7852453-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("2"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:15:57.8857784-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("2"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:15:57.9737866-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:15:58.1158215-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:15:58.2399800-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:15:58.3222115-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:15:58.4258063-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:15:58.5295925-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:15:58.6330211-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("4"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:15:58.7175602-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:15:58.8108237-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:15:58.9198353-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:15:59.0154457-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:15:59.1182907-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:15:59.2192807-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("2"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:15:59.3133650-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("2"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:15:59.4227594-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:15:59.5266911-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:15:59.6263929-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:15:59.7195734-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:15:59.8140887-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:15:59.9065126-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:16:00.1042301-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:16:00.2814448-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:16:00.4891028-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:16:00.6637049-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:16:00.8470262-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:16:01.0625806-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:16:01.3018871-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:16:01.5188122-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:16:01.7428169-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:16:01.9467004-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:16:02.1235971-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("2"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:16:02.2991809-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:16:02.5284011-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:16:02.7306451-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:16:02.9146820-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:16:03.0952379-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:16:03.1811926-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:16:03.2913967-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:16:03.3750971-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("2"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:16:03.4618169-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("2"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:16:03.5535357-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:16:03.5669133-03:00 0HN8FBAMH7EU5:00000011 [INF] LogDTO { Fecha: 11/28/2024 00:16:03, Endpoint: "/api/BFA/Hashes", MetodoHttp: "GET", DatosRecibidos: null, Mensaje: "Hashes obtenidos correctamente", Detalles: null } (60b9aab8)
+2024-11-28T00:16:03.5675866-03:00 0HN8FBAMH7EU5:00000011 [INF] Executing "OkObjectResult", writing value of type '"System.Collections.Generic.List`1[[BFASenado.DTO.HashDTO.HashDTO, BFASenado, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"'. (605b4265)
+2024-11-28T00:16:03.5682850-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed action "BFASenado.Controllers.BFAController.GetHashes (BFASenado)" in 6145.6639ms (afa2e885)
+2024-11-28T00:16:03.5683616-03:00 0HN8FBAMH7EU5:00000011 [INF] Executed endpoint '"BFASenado.Controllers.BFAController.GetHashes (BFASenado)"' (99874f2b)
+2024-11-28T00:16:03.5685937-03:00 0HN8FBAMH7EU5:00000011 [INF] Request finished HTTP/2 GET https://localhost:7070/api/BFA/Hashes - - - 200 11167 application/json;+charset=utf-8 6146.4060ms (791a596a)
+2024-11-28T00:16:33.3084041-03:00 0HN8FBAMH7EU5:00000013 [INF] Request starting HTTP/2 GET https://localhost:7070/api/BFA/Hash?hash=0x081146562129E61FCD827B3360AACAF953C0D11274CFBCCC0DA6F1A804682E976 - - (ca22a1cb)
+2024-11-28T00:16:33.3086306-03:00 0HN8FBAMH7EU5:00000013 [INF] Executing endpoint '"BFASenado.Controllers.BFAController.Hash (BFASenado)"' (500cc934)
+2024-11-28T00:16:33.3131996-03:00 0HN8FBAMH7EU5:00000013 [INF] Route matched with "{action = \"Hash\", controller = \"BFA\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[BFASenado.DTO.HashDTO.HashDTO]] Hash(System.String)" on controller "BFASenado.Controllers.BFAController" ("BFASenado"). (122b2fdf)
+2024-11-28T00:16:33.5485932-03:00 0HN8FBAMH7EU5:00000013 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:16:33.5605910-03:00 0HN8FBAMH7EU5:00000013 [INF] LogDTO { Fecha: 11/28/2024 00:16:33, Endpoint: "/api/BFA/Hash", MetodoHttp: "GET", DatosRecibidos: "0x081146562129E61FCD827B3360AACAF953C0D11274CFBCCC0DA6F1A804682E976", Mensaje: "Hash obtenido correctamente", Detalles: null } (60b9aab8)
+2024-11-28T00:16:33.5610395-03:00 0HN8FBAMH7EU5:00000013 [INF] Executing "OkObjectResult", writing value of type '"BFASenado.DTO.HashDTO.HashDTO"'. (605b4265)
+2024-11-28T00:16:33.6117633-03:00 0HN8FBAMH7EU5:00000013 [INF] Executed action "BFASenado.Controllers.BFAController.Hash (BFASenado)" in 298.4319ms (afa2e885)
+2024-11-28T00:16:33.6118950-03:00 0HN8FBAMH7EU5:00000013 [INF] Executed endpoint '"BFASenado.Controllers.BFAController.Hash (BFASenado)"' (99874f2b)
+2024-11-28T00:16:33.6121546-03:00 0HN8FBAMH7EU5:00000013 [INF] Request finished HTTP/2 GET https://localhost:7070/api/BFA/Hash?hash=0x081146562129E61FCD827B3360AACAF953C0D11274CFBCCC0DA6F1A804682E976 - - - 200 240952 application/json;+charset=utf-8 303.7343ms (791a596a)
+2024-11-28T00:16:57.4316389-03:00 0HN8FBAMH7EU5:00000015 [INF] Request starting HTTP/2 GET https://localhost:7070/api/BFA/Hash?hash=81146562129e61fcd827b3360aacaf953c0d11274cfbccc0da6f1a804682e976 - - (ca22a1cb)
+2024-11-28T00:16:57.4318390-03:00 0HN8FBAMH7EU5:00000015 [INF] Executing endpoint '"BFASenado.Controllers.BFAController.Hash (BFASenado)"' (500cc934)
+2024-11-28T00:16:57.4319762-03:00 0HN8FBAMH7EU5:00000015 [INF] Route matched with "{action = \"Hash\", controller = \"BFA\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[BFASenado.DTO.HashDTO.HashDTO]] Hash(System.String)" on controller "BFASenado.Controllers.BFAController" ("BFASenado"). (122b2fdf)
+2024-11-28T00:16:57.6694468-03:00 0HN8FBAMH7EU5:00000015 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:16:57.6757306-03:00 0HN8FBAMH7EU5:00000015 [INF] LogDTO { Fecha: 11/28/2024 00:16:57, Endpoint: "/api/BFA/Hash", MetodoHttp: "GET", DatosRecibidos: "81146562129e61fcd827b3360aacaf953c0d11274cfbccc0da6f1a804682e976", Mensaje: "Hash obtenido correctamente", Detalles: null } (60b9aab8)
+2024-11-28T00:16:57.6762716-03:00 0HN8FBAMH7EU5:00000015 [INF] Executing "OkObjectResult", writing value of type '"BFASenado.DTO.HashDTO.HashDTO"'. (605b4265)
+2024-11-28T00:16:57.6768555-03:00 0HN8FBAMH7EU5:00000015 [INF] Executed action "BFASenado.Controllers.BFAController.Hash (BFASenado)" in 244.7495ms (afa2e885)
+2024-11-28T00:16:57.6769722-03:00 0HN8FBAMH7EU5:00000015 [INF] Executed endpoint '"BFASenado.Controllers.BFAController.Hash (BFASenado)"' (99874f2b)
+2024-11-28T00:16:57.6772235-03:00 0HN8FBAMH7EU5:00000015 [INF] Request finished HTTP/2 GET https://localhost:7070/api/BFA/Hash?hash=81146562129e61fcd827b3360aacaf953c0d11274cfbccc0da6f1a804682e976 - - - 200 254 application/json;+charset=utf-8 245.5792ms (791a596a)
+2024-11-28T00:17:35.9769674-03:00 0HN8FBAMH7EU5:00000017 [INF] Request starting HTTP/2 POST https://localhost:7070/api/BFA/GuardarHash application/json-patch+json 240799 (ca22a1cb)
+2024-11-28T00:17:35.9934994-03:00 0HN8FBAMH7EU5:00000017 [INF] Executing endpoint '"BFASenado.Controllers.BFAController.GuardarHash (BFASenado)"' (500cc934)
+2024-11-28T00:17:35.9936990-03:00 0HN8FBAMH7EU5:00000017 [INF] Route matched with "{action = \"GuardarHash\", controller = \"BFA\"}". Executing controller action with signature "System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[BFASenado.DTO.HashDTO.HashDTO]] GuardarHash(BFASenado.DTO.HashDTO.GuardarHashDTO)" on controller "BFASenado.Controllers.BFAController" ("BFASenado"). (122b2fdf)
+2024-11-28T00:17:36.1975606-03:00 0HN8FBAMH7EU5:00000017 [INF] Executed DbCommand ("3"ms) [Parameters=["@__hash_0='?' (Size = 100) (DbType = AnsiString)"], CommandType='Text', CommandTimeout='30']"
+""SELECT TOP(1) [t].[Id], [t].[Base64], [t].[Hash]
+FROM [Transaccion] AS [t]
+WHERE [t].[Hash] = @__hash_0" (0723d8ff)
+2024-11-28T00:17:36.2730105-03:00 0HN8FBAMH7EU5:00000017 [INF] LogDTO { Fecha: 11/28/2024 00:17:36, Endpoint: "/api/BFA/GuardarHash", MetodoHttp: "POST", DatosRecibidos: "0x081146562129E61FCD827B3360AACAF953C0D11274CFBCCC0DA6F1A804682E976", Mensaje: "El hash ya existe", Detalles: null } (60b9aab8)
+2024-11-28T00:17:36.2734233-03:00 0HN8FBAMH7EU5:00000017 [INF] Executing "BadRequestObjectResult", writing value of type '"System.String"'. (605b4265)
+2024-11-28T00:17:36.2738535-03:00 0HN8FBAMH7EU5:00000017 [INF] Executed action "BFASenado.Controllers.BFAController.GuardarHash (BFASenado)" in 280.0699ms (afa2e885)
+2024-11-28T00:17:36.2739777-03:00 0HN8FBAMH7EU5:00000017 [INF] Executed endpoint '"BFASenado.Controllers.BFAController.GuardarHash (BFASenado)"' (99874f2b)
+2024-11-28T00:17:36.2749814-03:00 0HN8FBAMH7EU5:00000017 [INF] Request finished HTTP/2 POST https://localhost:7070/api/BFA/GuardarHash application/json-patch+json 240799 - 400 - text/plain;+charset=utf-8 298.0838ms (791a596a)
