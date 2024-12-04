@@ -8,14 +8,14 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "pdfFile",
+        "Name": "file",
         "Type": "Microsoft.AspNetCore.Http.IFormFile",
         "IsRequired": false
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "BFASenado.DTO.FileDTO.FileDTO",
+        "Type": "BFASenado.DTO.ResponseDTO.GetFileDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -47,21 +47,21 @@
   },
   {
     "ContainingType": "BFASenado.Controllers.BFAController",
-    "Method": "GuardarHash",
-    "RelativePath": "api/BFA/GuardarHash",
+    "Method": "HashBaseDatos",
+    "RelativePath": "api/BFA/HashBaseDatos",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "input",
-        "Type": "BFASenado.DTO.HashDTO.GuardarHashDTO",
+        "Type": "BFASenado.DTO.RequestDTO.GetHashSHA256DTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "BFASenado.DTO.HashDTO.HashDTO",
+        "Type": "BFASenado.Models.TransaccionBFA",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -73,21 +73,21 @@
   },
   {
     "ContainingType": "BFASenado.Controllers.BFAController",
-    "Method": "Hash",
-    "RelativePath": "api/BFA/Hash",
-    "HttpMethod": "GET",
+    "Method": "HashBFA",
+    "RelativePath": "api/BFA/HashBFA",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "hash",
-        "Type": "System.String",
-        "IsRequired": false
+        "Name": "input",
+        "Type": "BFASenado.DTO.RequestDTO.GetHashSHA256DTO",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "BFASenado.DTO.HashDTO.HashDTO",
+        "Type": "BFASenado.DTO.ResponseDTO.GetHashDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -99,15 +99,93 @@
   },
   {
     "ContainingType": "BFASenado.Controllers.BFAController",
-    "Method": "GetHashes",
+    "Method": "Hashes",
     "RelativePath": "api/BFA/Hashes",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "input",
+        "Type": "BFASenado.DTO.RequestDTO.GetHashListDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[BFASenado.DTO.ResponseDTO.GetHashDTO, BFASenado, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BFASenado.Controllers.BFAController",
+    "Method": "SaveHash",
+    "RelativePath": "api/BFA/SaveHash",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "input",
+        "Type": "BFASenado.DTO.RequestDTO.GuardarHashDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BFASenado.DTO.ResponseDTO.GetHashDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BFASenado.Controllers.BFAController",
+    "Method": "SaveMasivo",
+    "RelativePath": "api/BFA/SaveMasivo",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BFASenado.DTO.HashDTO.HashDTO, BFASenado, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BFASenado.Controllers.BFAController",
+    "Method": "SHA256ByBase64",
+    "RelativePath": "api/BFA/SHA256ByBase64",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "base64Input",
+        "Type": "BFASenado.DTO.RequestDTO.Base64InputDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
         "MediaTypes": [
           "text/plain",
           "application/json",

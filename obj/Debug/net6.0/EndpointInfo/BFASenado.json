@@ -1,0 +1,599 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "BFASenado",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/BFA/Balance": {
+      "get": {
+        "tags": [
+          "BFA"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "number",
+                  "format": "double"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/BFA/ArchivoData": {
+      "post": {
+        "tags": [
+          "BFA"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "file": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetFileDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetFileDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetFileDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/BFA/SHA256ByBase64": {
+      "post": {
+        "tags": [
+          "BFA"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Base64InputDTO"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Base64InputDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Base64InputDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Base64InputDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/BFA/HashBaseDatos": {
+      "post": {
+        "tags": [
+          "BFA"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetHashSHA256DTO"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetHashSHA256DTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetHashSHA256DTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetHashSHA256DTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransaccionBFA"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransaccionBFA"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransaccionBFA"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/BFA/HashBFA": {
+      "post": {
+        "tags": [
+          "BFA"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetHashSHA256DTO"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetHashSHA256DTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetHashSHA256DTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetHashSHA256DTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetHashDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetHashDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetHashDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/BFA/Hashes": {
+      "post": {
+        "tags": [
+          "BFA"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetHashListDTO"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetHashListDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetHashListDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetHashListDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetHashDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetHashDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetHashDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/BFA/SaveHash": {
+      "post": {
+        "tags": [
+          "BFA"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GuardarHashDTO"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GuardarHashDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GuardarHashDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GuardarHashDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetHashDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetHashDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetHashDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/BFA/SaveMasivo": {
+      "get": {
+        "tags": [
+          "BFA"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Base64InputDTO": {
+        "required": [
+          "base64"
+        ],
+        "type": "object",
+        "properties": {
+          "base64": {
+            "pattern": "^[A-Za-z0-9+/]+={0,2}$",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetFileDTO": {
+        "type": "object",
+        "properties": {
+          "hashSHA256": {
+            "type": "string",
+            "nullable": true
+          },
+          "base64": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetHashDTO": {
+        "type": "object",
+        "properties": {
+          "idTabla": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombreTabla": {
+            "type": "string",
+            "nullable": true
+          },
+          "numeroBloque": {
+            "type": "string",
+            "nullable": true
+          },
+          "hash": {
+            "type": "string",
+            "nullable": true
+          },
+          "sellador": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaAlta": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "tipoDocumento": {
+            "type": "string",
+            "nullable": true
+          },
+          "detalles": {
+            "type": "string",
+            "nullable": true
+          },
+          "base64": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetHashListDTO": {
+        "type": "object",
+        "properties": {
+          "idTabla": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "nombreTabla": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoDocumento": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetHashSHA256DTO": {
+        "required": [
+          "hashSHA256"
+        ],
+        "type": "object",
+        "properties": {
+          "hashSHA256": {
+            "maxLength": 64,
+            "minLength": 64,
+            "pattern": "^[a-fA-F0-9]{64}$",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GuardarHashDTO": {
+        "required": [
+          "base64",
+          "hashSHA256",
+          "idTabla",
+          "nombreTabla",
+          "tipoDocumento"
+        ],
+        "type": "object",
+        "properties": {
+          "idTabla": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64"
+          },
+          "nombreTabla": {
+            "type": "string"
+          },
+          "tipoDocumento": {
+            "type": "string"
+          },
+          "hashSHA256": {
+            "maxLength": 64,
+            "minLength": 64,
+            "pattern": "^[a-fA-F0-9]{64}$",
+            "type": "string"
+          },
+          "base64": {
+            "pattern": "^[A-Za-z0-9+/]+={0,2}$",
+            "type": "string"
+          },
+          "detalles": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TransaccionBFA": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "idTabla": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nombreTabla": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "tipoDocumento": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "hashSHA256": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "hashHexa": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "base64": {
+            "type": "string",
+            "nullable": true
+          },
+          "detalles": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "fechaAltaTabla": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fechaAltaBFA": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "snAltaBFA": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

@@ -1,11 +1,12 @@
 {
   "Version": 1,
-  "Hash": "kfz1ycJ/GChkcNsNXjn53BTQ9RjnsBGfaDHdrtP8Yiw=",
+  "Hash": "+x62BI+T9AjdEmNSfLsdhIrG+D5nNgIE+10mI+lURxA=",
   "Source": "BFASenado",
   "BasePath": "_content/BFASenado",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [],
-  "Assets": []
+  "Assets": [],
+  "Endpoints": []
 }

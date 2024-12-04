@@ -13,7 +13,7 @@ namespace BFASenado.Models
         {
         }
 
-        public virtual DbSet<Transaccion> Transaccions { get; set; } = null!;
+        public virtual DbSet<TransaccionBFA> Transacciones { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

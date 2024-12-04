@@ -4,12 +4,13 @@ using System.Numerics;
 using Nethereum.Web3;
 using Nethereum.Hex.HexConvertors.Extensions;
 using BFASenado.Models;
-using Microsoft.EntityFrameworkCore;
-using BFASenado.DTO.HashDTO;
+using BFASenado.DTO.RequestDTO;
 using BFASenado.Services;
-using System.Security.Cryptography;
-using BFASenado.DTO.FileDTO;
-using System.Text;
+using BFASenado.Services.Repository;
+using BFASenado.DTO.ResponseDTO;
+using BFASenado.Services.BFA;
+using BFASenado.DTO.LogDTO;
+using Nethereum.Contracts;
 
 namespace BFASenado.Controllers
 {
@@ -22,6 +23,9 @@ namespace BFASenado.Controllers
         // DB
         private readonly BFAContext _context;
 
+        // BFAService
+        private readonly IBFAService _BFAService;
+
         // Logger
         private readonly ILogger<BFAController> _logger;
         private readonly ILogService _logService;
@@ -29,13 +33,12 @@ namespace BFASenado.Controllers
         // Configuration
         private readonly IConfiguration _configuration;
 
-        // MessageService
-        private readonly IMessageService _messageService;
+        // TransaccionBFAService
+        private readonly ITransaccionBFAService _transaccionBFAService;
 
         // Propiedades de appsettings
         private static string? UrlNodoPrueba;
         private static int ChainID;
-        private static string? Tabla;
         private static string? Sellador;
         private static string? PrivateKey;
         private static string? ContractAddress;
@@ -46,21 +49,22 @@ namespace BFASenado.Controllers
         #region Constructor
 
         public BFAController(
+            IBFAService bfaService,
             ILogService logService,
-            ILogger<BFAController> logger, 
-            BFAContext context, 
+            ILogger<BFAController> logger,
+            BFAContext context,
             IConfiguration configuration,
-            IMessageService messageService)
+            ITransaccionBFAService transaccionBFAService)
         {
+            _BFAService = bfaService;
             _logService = logService;
             _logger = logger;
             _context = context;
             _configuration = configuration;
-            _messageService = messageService;
+            _transaccionBFAService = transaccionBFAService;
 
             UrlNodoPrueba = _configuration.GetSection("UrlNodoPrueba").Value;
             ChainID = Convert.ToInt32(_configuration.GetSection("ChainID")?.Value);
-            Tabla = _configuration.GetSection("Tabla").Value;
             Sellador = _configuration.GetSection("Sellador").Value;
             PrivateKey = _configuration.GetSection("PrivateKey").Value;
             ContractAddress = _configuration.GetSection("ContractAddress").Value;
@@ -71,50 +75,69 @@ namespace BFASenado.Controllers
 
         #region Methods
 
-        [HttpPost("ArchivoData")]
-        public async Task<ActionResult<FileDTO?>> ArchivoData(IFormFile pdfFile)
+        [HttpGet("Balance")]
+        public async Task<ActionResult<decimal>> Balance()
         {
-            if (pdfFile == null || pdfFile.Length == 0)
+            try
             {
-                return BadRequest(_messageService.GetSha256HashError());
+                var web3 = new Web3(UrlNodoPrueba);
+                var balanceWei = await web3.Eth.GetBalance.SendRequestAsync(Sellador);
+                var balanceEther = Web3.Convert.FromWei(balanceWei);
+
+                var logSuccess = _logService.CrearLog(
+                    HttpContext,
+                    Sellador,
+                    Constantes.Constants.LogMessages.GetBalanceSuccess,
+                    null);
+                _logger.LogInformation("{@Log}", logSuccess);
+
+                // Retornar el balance
+                return Ok(balanceEther);
+            }
+            catch (Exception ex)
+            {
+                var logError = _logService.CrearLog(
+                    HttpContext,
+                    Sellador,
+                    Constantes.Constants.LogMessages.GetBalanceError,
+                    ex.Message);
+                _logger.LogError("{@Log}", logError);
+
+                throw new Exception($"{Constantes.Constants.LogMessages.GetBalanceError}. {ex.Message}");
+            }
+        }
+
+        [HttpPost("ArchivoData")]
+        public async Task<ActionResult<GetFileDTO?>> ArchivoData(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest(Constantes.Constants.LogMessages.GetPropiedadesArchivoError);
             }
 
             try
             {
-                bool nodoDisponible = await this.IsNodeAvailable();
-                bool nodoSincronizado = await this.IsNodeSynced();
-
-                if (!nodoDisponible)
-                {
-                    throw new InvalidOperationException($"{_messageService.GetDisponibilidadBFAError()}");
-                }
-                if (!nodoSincronizado)
-                {
-                    throw new InvalidOperationException($"{_messageService.GetSincronizacionBFAError()}");
-                }
-
                 using (var memoryStream = new MemoryStream())
                 {
                     // Leer archivo
-                    await pdfFile.CopyToAsync(memoryStream);
-                    var pdfBytes = memoryStream.ToArray();
+                    await file.CopyToAsync(memoryStream);
+                    var fileBytes = memoryStream.ToArray();
 
                     // Calcular Hash
-                    string hash = CalcularHashSHA256(pdfBytes);
+                    string hash = _BFAService.CalcularHashSHA256(fileBytes);
 
                     // Convertir a Base64
-                    string base64 = Convert.ToBase64String(pdfBytes);
+                    string base64 = Convert.ToBase64String(fileBytes);
 
-                    // Log Éxito
-                    var log = _logService.CrearLog(
+                    var logSuccess = _logService.CrearLog(
                         HttpContext,
-                        null,
-                        $"{_messageService.GetSha256HashSuccess()}",
+                        new { file?.FileName, file?.Length },
+                        Constantes.Constants.LogMessages.GetPropiedadesArchivoSuccess,
                         null);
-                    _logger.LogInformation("{@Log}", log);
+                    _logger.LogInformation("{@Log}", logSuccess);
 
                     // Retornar
-                    return Ok(new FileDTO()
+                    return Ok(new GetFileDTO()
                     {
                         HashSHA256 = hash,
                         Base64 = base64
@@ -123,212 +146,147 @@ namespace BFASenado.Controllers
             }
             catch (Exception ex)
             {
-                // Log Error
-                var log = _logService.CrearLog(
+                var logError = _logService.CrearLog(
                     HttpContext,
-                    null,
-                    $"{_messageService.GetSha256HashError()}. {ex.Message}",
-                    ex.StackTrace);
-                _logger.LogError("{@Log}", log);
+                    new { file?.FileName, file?.Length },
+                    Constantes.Constants.LogMessages.GetPropiedadesArchivoError,
+                    ex.Message);
+                _logger.LogError("{@Log}", logError);
 
-                throw new Exception($"{_messageService.GetSha256HashError()}. {ex.Message}. {ex.StackTrace}");
+                throw new Exception($"{Constantes.Constants.LogMessages.GetPropiedadesArchivoError}. {ex.Message}");
             }
         }
 
         [HttpPost("SHA256ByBase64")]
-        public async Task<ActionResult<string>> SHA256ByBase64([FromBody] Base64InputDTO base64Input)
+        public ActionResult<string> SHA256ByBase64([FromBody] Base64InputDTO base64Input)
         {
-            if (string.IsNullOrEmpty(base64Input?.Base64))
-            {
-                return BadRequest(_messageService.GetBase64InputErrorFormatoIncorrecto());
-            }
-
             try
             {
-                bool nodoDisponible = await this.IsNodeAvailable();
-                bool nodoSincronizado = await this.IsNodeSynced();
-
-                if (!nodoDisponible)
-                {
-                    throw new InvalidOperationException($"{_messageService.GetDisponibilidadBFAError()}");
-                }
-                if (!nodoSincronizado)
-                {
-                    throw new InvalidOperationException($"{_messageService.GetSincronizacionBFAError()}");
-                }
-
                 // Convertir Base64 a arreglo de bytes
                 byte[] fileBytes = Convert.FromBase64String(base64Input.Base64);
 
-                // Calcular el hash SHA-256 utilizando el método separado
-                string hash = CalcularHashSHA256(fileBytes);
+                // Calcular el hash SHA-256
+                string hash = _BFAService.CalcularHashSHA256(fileBytes);
 
-                // Log Éxito
-                var log = _logService.CrearLog(
+                var logSuccess = _logService.CrearLog(
                     HttpContext,
                     null,
-                    $"{_messageService.GetSha256HashSuccess()}",
+                    Constantes.Constants.LogMessages.GetHashSHA256Success,
                     null);
-                _logger.LogInformation("{@Log}", log);
+                _logger.LogInformation("{@Log}", logSuccess);
 
-                // Retornar el hash
                 return Ok(hash);
             }
             catch (Exception ex)
             {
-                // Determinar si el error es de formato inválido
-                string errorMessage = ex is FormatException
-                    ? _messageService.GetBase64InputErrorFormatoIncorrecto()
-                    : _messageService.GetSha256HashError();
-
-                // Log Error
-                var log = _logService.CrearLog(
+                var logError = _logService.CrearLog(
                     HttpContext,
                     null,
-                    $"{errorMessage}. {ex.Message}",
-                    ex.StackTrace);
-                _logger.LogError("{@Log}", log);
+                    Constantes.Constants.LogMessages.GetHashSHA256Error,
+                    ex.Message);
+                _logger.LogError("{@Log}", logError);
 
-                throw new Exception($"{errorMessage}. {ex.Message}. {ex.StackTrace}");
+                throw new Exception($"{Constantes.Constants.LogMessages.GetHashSHA256Error}. {ex.Message}");
             }
         }
 
-        [HttpGet("Balance")]
-        public async Task<ActionResult<decimal>> Balance()
+        [HttpPost("HashBaseDatos")]
+        public async Task<ActionResult<TransaccionBFA?>> HashBaseDatos([FromBody] GetHashSHA256DTO input)
         {
             try
             {
-                bool nodoDisponible = await this.IsNodeAvailable();
-                bool nodoSincronizado = await this.IsNodeSynced();
+                TransaccionBFA? transaccion = await _transaccionBFAService.GetByHash(input.HashSHA256);
 
-                if (!nodoDisponible)
+                if (transaccion != null)
                 {
-                    throw new InvalidOperationException($"{_messageService.GetDisponibilidadBFAError()}");
+                    var logSuccess = _logService.CrearLog(
+                        HttpContext,
+                        input.HashSHA256,
+                        Constantes.Constants.LogMessages.GetHashSuccess,
+                        null);
+                    _logger.LogInformation("{@Log}", logSuccess);
+
+                    return Ok(transaccion);
                 }
-                if (!nodoSincronizado)
-                {
-                    throw new InvalidOperationException($"{_messageService.GetSincronizacionBFAError()}");
-                }
 
-                var web3 = new Web3(UrlNodoPrueba);
-                var balanceWei = await web3.Eth.GetBalance.SendRequestAsync(Sellador);
-                var balanceEther = Web3.Convert.FromWei(balanceWei);
+                var logWarning = _logService.CrearLog(
+                        HttpContext,
+                        input.HashSHA256,
+                        Constantes.Constants.LogMessages.GetHashNoExisteError,
+                        null
+                    );
+                _logger.LogWarning("{@Log}", logWarning);
 
-                // Log Éxito
-                var log = _logService.CrearLog(
-                    HttpContext, 
-                    null, 
-                    $"{_messageService.GetBalanceSuccess()}", 
-                    null);
-                _logger.LogInformation("{@Log}", log);
-
-                // Retornar el balance
-                return Ok(balanceEther);
+                return BadRequest(Constantes.Constants.LogMessages.GetHashNoExisteError);
             }
             catch (Exception ex)
             {
-                // Log Error
-                var log = _logService.CrearLog(
-                    HttpContext, 
-                    null, 
-                    $"{_messageService.GetBalanceError()}. {ex.Message}", 
-                    ex.StackTrace);
-                _logger.LogError("{@Log}", log);
-                
-                throw new Exception($"{_messageService.GetBalanceError()}. {ex.Message}. {ex.StackTrace}");
+                var logError = _logService.CrearLog(
+                    HttpContext,
+                    input.HashSHA256,
+                    Constantes.Constants.LogMessages.GetHashError,
+                    ex.Message);
+                _logger.LogError("{@Log}", logError);
+
+                return StatusCode(500, $"{Constantes.Constants.LogMessages.GetHashError}. {ex.Message}");
             }
         }
 
-        [HttpGet("Hash")]
-        public async Task<ActionResult<HashDTO>> Hash([FromQuery] string hash)
+        [HttpPost("HashBFA")]
+        public async Task<ActionResult<GetHashDTO>> HashBFA([FromBody] GetHashSHA256DTO input)
         {
             try
             {
-                bool nodoDisponible = await this.IsNodeAvailable();
-                bool nodoSincronizado = await this.IsNodeSynced();
+                var result = await _BFAService.GetHashDTO(input.HashSHA256);
 
-                if (!nodoDisponible)
+                if (result == null)
                 {
-                    throw new InvalidOperationException($"{_messageService.GetDisponibilidadBFAError()}");
-                }
-                if (!nodoSincronizado)
-                {
-                    throw new InvalidOperationException($"{_messageService.GetSincronizacionBFAError()}");
-                }
+                    var logWarning = _logService.CrearLog(
+                       HttpContext,
+                       input.HashSHA256,
+                       Constantes.Constants.LogMessages.GetHashNoExisteError,
+                       null
+                   );
+                    _logger.LogWarning("{@Log}", logWarning);
 
-                if (string.IsNullOrEmpty(hash.Trim()))
-                {
-                    // Log
-                    var logFormatoIncorrecto = _logService.CrearLog(
-                        HttpContext,
-                        hash,
-                        $"{_messageService.GetHashErrorFormatoIncorrecto()}",
-                        null);
-                    _logger.LogInformation("{@Log}", logFormatoIncorrecto);
-
-                    return BadRequest(_messageService.GetHashErrorFormatoIncorrecto());
+                    return BadRequest(Constantes.Constants.LogMessages.GetHashNoExisteError);
                 }
 
-                HashDTO? responseData = await this.GetHashDTO(hash, true);
-
-                if (responseData == null)
-                {
-                    // Log
-                    var logNotFound = _logService.CrearLog(
-                        HttpContext,
-                        hash,
-                        $"{_messageService.GetHashErrorNotFound()}",
-                        null);
-                    _logger.LogInformation("{@Log}", logNotFound);
-
-                    return NotFound($"{_messageService.GetHashErrorNotFound()}: {hash}");
-                }
-
-                // Log Éxito
-                var log = _logService.CrearLog(
+                var logSuccess = _logService.CrearLog(
                     HttpContext,
-                    hash,
-                    $"{_messageService.GetHashSuccess()}",
-                    null);
-                _logger.LogInformation("{@Log}", log);
+                    input.HashSHA256,
+                    Constantes.Constants.LogMessages.GetHashSuccess,
+                    null
+                );
+                _logger.LogInformation("{@Log}", logSuccess);
 
-                // Retornar el hash
-                return Ok(responseData);
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                // Log Error
-                var log = _logService.CrearLog(
+                var logError = _logService.CrearLog(
                     HttpContext,
-                    hash,
-                    $"{_messageService.GetHashError()}. {ex.Message}",
-                    ex.StackTrace);
-                _logger.LogError("{@Log}", log);
+                    input.HashSHA256,
+                    Constantes.Constants.LogMessages.GetHashError,
+                    ex.Message
+                );
+                _logger.LogError("{@Log}", logError);
 
-                throw new Exception($"{_messageService.GetHashError()}. {ex.Message}. {ex.StackTrace}");
+                return StatusCode(500, $"{Constantes.Constants.LogMessages.GetHashError}. {ex.Message}");
             }
         }
 
-        [HttpGet("Hashes")]
-        public async Task<ActionResult<List<HashDTO>>> GetHashes()
+        [HttpPost("Hashes")]
+        public async Task<ActionResult<List<GetHashDTO>>> Hashes([FromBody] GetHashListDTO input)
         {
+            List<BigInteger> hashesList;
+            
             try
             {
-                bool nodoDisponible = await this.IsNodeAvailable();
-                bool nodoSincronizado = await this.IsNodeSynced();
-
-                if (!nodoDisponible)
-                {
-                    throw new InvalidOperationException($"{_messageService.GetDisponibilidadBFAError()}");
-                }
-                if (!nodoSincronizado)
-                {
-                    throw new InvalidOperationException($"{_messageService.GetSincronizacionBFAError()}");
-                }
-
+                LogDTO logSuccess;
                 var account = new Account(PrivateKey, ChainID);
                 var web3 = new Web3(account, UrlNodoPrueba);
-                List<HashDTO> hashes = new List<HashDTO>();
+                List<GetHashDTO> hashes = new List<GetHashDTO>();
 
                 // Activar transacciones de tipo legacy
                 web3.TransactionManager.UseLegacyAsDefault = true;
@@ -336,122 +294,119 @@ namespace BFASenado.Controllers
                 // Cargar el contrato en la dirección especificada
                 var contract = web3.Eth.GetContract(ABI, ContractAddress);
 
-                // Llamar a la función "getAllHashes" del contrato
-                var getAllHashesFunction = contract.GetFunction("getAllHashes");
-                var hashesList = await getAllHashesFunction.CallAsync<List<BigInteger>>();
+                if (input.IdTabla.HasValue || !string.IsNullOrEmpty(input.NombreTabla) || !string.IsNullOrEmpty(input.TipoDocumento))
+                {
+                    // Llamar a la función "getFilteredHashes" con filtros
+                    var getFilteredHashesFunction = contract.GetFunction("getFilteredHashes");
+                    hashesList = await getFilteredHashesFunction.CallAsync<List<BigInteger>>(
+                        input.IdTabla ?? 0,
+                        input.NombreTabla ?? "",
+                        input.TipoDocumento ?? ""
+                    );
+
+                    logSuccess = _logService.CrearLog(
+                        HttpContext, 
+                        new { input.IdTabla, input.NombreTabla, input.TipoDocumento }, 
+                        Constantes.Constants.LogMessages.GetHashesConFiltroSuccess, 
+                        null);
+                }
+                else
+                {
+                    // Sin filtros: Llamar a "getAllHashes"
+                    var getAllHashesFunction = contract.GetFunction("getAllHashes");
+                    hashesList = await getAllHashesFunction.CallAsync<List<BigInteger>>();
+
+                    logSuccess = _logService.CrearLog(
+                        HttpContext,
+                        null,
+                        Constantes.Constants.LogMessages.GetHashesSinFiltroSuccess,
+                        null);
+                }
 
                 // Convertir cada BigInteger en una cadena hexadecimal
                 var hashStrings = hashesList?
                     .Select(h => "0x" + h.ToString("X").ToLower())
                     .ToList();
 
-                // Insertar hashStrings en lista de hashes
                 foreach (var h in hashStrings)
                 {
-                    var hashDTO = await this.GetHashDTO(h, false);
-                    if (hashDTO != null)
+                    var hashDTO = await _BFAService.GetHashDTO(h);
+                    if (hashDTO != null && !hashes.Any(existingHash => existingHash.Hash == hashDTO.Hash))
                     {
                         hashes.Add(hashDTO);
                     }
                 }
 
-                // Log Éxito
-                var log = _logService.CrearLog(
-                    HttpContext,
-                    null,
-                    $"{_messageService.GetHashesSuccess()}",
-                    null);
-                _logger.LogInformation("{@Log}", log);
+                _logger.LogInformation("{@Log}", logSuccess);
 
-                // Retornar la lista de hashes
                 return Ok(hashes);
             }
             catch (Exception ex)
             {
-                // Log Error
-                var log = _logService.CrearLog(
-                    HttpContext,
-                    null,
-                    $"{_messageService.GetHashesError()}. {ex.Message}",
-                    ex.StackTrace);
-                _logger.LogError("{@Log}", log);
+                var logError = _logService.CrearLog(
+                    HttpContext, 
+                    null, 
+                    Constantes.Constants.LogMessages.GetHashesError, 
+                    ex.Message);
+                
+                _logger.LogError("{@Log}", logError);
 
-                throw new Exception($"{_messageService.GetHashesError()}. {ex.Message}. {ex.StackTrace}");
+                return StatusCode(500, $"{Constantes.Constants.LogMessages.GetHashesError}. {ex.Message}");
             }
         }
 
-        [HttpPost("GuardarHash")]
-        public async Task<ActionResult<HashDTO?>> GuardarHash([FromBody] GuardarHashDTO input)
+        [HttpPost("SaveHash")]
+        public async Task<ActionResult<GetHashDTO?>> SaveHash([FromBody] GuardarHashDTO input)
         {
             try
             {
-                bool nodoDisponible = await this.IsNodeAvailable();
-                bool nodoSincronizado = await this.IsNodeSynced();
-
-                if (!nodoDisponible)
-                {
-                    throw new InvalidOperationException($"{_messageService.GetDisponibilidadBFAError()}");
-                }
-                if (!nodoSincronizado)
-                {
-                    throw new InvalidOperationException($"{_messageService.GetSincronizacionBFAError()}");
-                }
-
-                if (input == null || string.IsNullOrEmpty(input.Hash.Trim()) || string.IsNullOrEmpty(input.Base64.Trim()))
-                {
-                    // Log de formato incorrecto
-                    var logFormatoIncorrecto = _logService.CrearLog(
-                        HttpContext,
-                        input.Hash,
-                        $"{_messageService.GetHashErrorFormatoIncorrecto()}",
-                        null);
-                    _logger.LogInformation("{@Log}", logFormatoIncorrecto);
-
-                    return BadRequest(_messageService.GetHashErrorFormatoIncorrecto());
-                }
-
                 var account = new Account(PrivateKey);
                 var web3 = new Web3(account, UrlNodoPrueba);
                 web3.TransactionManager.UseLegacyAsDefault = true;
-
                 var contract = web3.Eth.GetContract(ABI, ContractAddress);
                 var putFunction = contract.GetFunction("put");
+                var result = await _BFAService.GetHashDTO(input.HashSHA256);
+                BigInteger hashValue = input.HashSHA256.HexToBigInteger(false);
+                string hashHex = input.HashSHA256;
 
-                BigInteger hashValue = input.Hash.HexToBigInteger(false);
-                string hashHex = "0x" + hashValue.ToString("X");
+                if (!hashHex.StartsWith("0x"))
+                    hashHex = "0x" + hashHex;
+                hashHex = hashHex.ToLower();
 
-                var checkHashFunction = contract.GetFunction("checkHash");
+                // Verificar si el hash ya existe en la DB o en la BFA
+                var transaccionDB = await _transaccionBFAService.GetByHash(input.HashSHA256);
 
-                // Verificar existencia en DB y BFA
-                var existsDB = await this.ObtenerTransaccionEnDB(hashHex);
-                bool existsBFA = await checkHashFunction.CallAsync<bool>(hashHex);
-                if (existsBFA || existsDB != null)
+                if (result != null || transaccionDB != null)
                 {
-                    // Log de hash existente
-                    var logHashExists = _logService.CrearLog(
+                    var logWarning = _logService.CrearLog(
                         HttpContext,
-                        input.Hash,
-                        $"{_messageService.GetHashExists()}",
-                        null);
-                    _logger.LogInformation("{@Log}", logHashExists);
+                        input.HashSHA256,
+                        Constantes.Constants.LogMessages.HashDuplicadoError,
+                        null
+                    );
+                    _logger.LogWarning("{@Log}", logWarning);
 
-                    return BadRequest(_messageService.GetHashExists());
+                    return BadRequest(Constantes.Constants.LogMessages.HashDuplicadoError);
                 }
 
-                // Iniciar transacción en la base de datos
                 using (var transaction = await _context.Database.BeginTransactionAsync())
                 {
                     try
                     {
                         // Guardar en la base de datos
-                        bool exitoDB = await this.GuardarTransaccionEnDB(input.Base64, hashHex);
-                        if (!exitoDB)
+                        await _transaccionBFAService.Save(new TransaccionBFA
                         {
-                            throw new Exception($"{_messageService.PostBaseDatosError()}");
-                        }
-
-                        // Recuperar de base de datos
-                        existsDB = await this.ObtenerTransaccionEnDB(hashHex);
+                            Base64 = input.Base64,
+                            Detalles = input.Detalles,
+                            FechaAltaBFA = null,
+                            FechaAltaTabla = DateTime.Now,
+                            HashSHA256 = input.HashSHA256,
+                            HashHexa = hashHex,
+                            IdTabla = input.IdTabla,
+                            NombreTabla = input.NombreTabla,
+                            SnAltaBFA = false,
+                            TipoDocumento = input.TipoDocumento
+                        });
 
                         // Guardar en la BFA
                         var objectList = new List<BigInteger> { hashValue };
@@ -460,274 +415,198 @@ namespace BFASenado.Controllers
                             new Nethereum.Hex.HexTypes.HexBigInteger(300000),
                             null,
                             objectList,
-                            existsDB?.Id ?? 0,
-                            Tabla
+                            input.IdTabla,
+                            input.NombreTabla ?? Constantes.Constants.DataMessages.NoRegistra,
+                            input.Detalles ?? Constantes.Constants.DataMessages.NoRegistra,
+                            input.TipoDocumento ?? Constantes.Constants.DataMessages.NoRegistra
                         );
 
                         if (string.IsNullOrEmpty(transactionHash))
                         {
-                            throw new Exception($"{_messageService.PostBFAError()}");
+                            throw new Exception(Constantes.Constants.LogMessages.HashGuardarError);
                         }
 
-                        // Confirmar la transacción de la base de datos
                         await transaction.CommitAsync();
 
-                        // Log Éxito
-                        var log = _logService.CrearLog(
+                        var logSuccess = _logService.CrearLog(
                             HttpContext,
-                            input.Hash,
-                            $"{_messageService.PostHashSuccess()}",
-                            null);
-                        _logger.LogInformation("{@Log}", log);
+                            input.HashSHA256,
+                            Constantes.Constants.LogMessages.TransaccionGuardarSuccess,
+                            null
+                        );
+                        _logger.LogInformation("{@Log}", logSuccess);
 
-                        // Retornar el DTO del hash
-                        return Ok(await this.GetHashDTO(hashHex, true));
+                        // Actualizar registro en base de datos
+                        var resultRecuperado = await _BFAService.GetHashDTO(input.HashSHA256);
+                        TransaccionBFA? recuperado = await _transaccionBFAService.GetByHash(input.HashSHA256);
+                        if (resultRecuperado != null && recuperado != null)
+                        {
+                            recuperado.FechaAltaBFA = resultRecuperado.FechaAlta;
+                            recuperado.SnAltaBFA = true;
+                            await _transaccionBFAService.Update(recuperado);
+                        }
+
+                        // Retornar
+                        return Ok(resultRecuperado);
                     }
                     catch (Exception ex)
                     {
-                        // Revertir la transacción
                         await transaction.RollbackAsync();
 
-                        // Log de error
                         var logError = _logService.CrearLog(
                             HttpContext,
-                            input.Hash,
-                            $"{_messageService.PostHashError()}. {ex.Message}",
-                            ex.StackTrace);
+                            input.HashSHA256,
+                            Constantes.Constants.LogMessages.TransaccionGuardarError,
+                            ex.Message
+                        );
                         _logger.LogError("{@Log}", logError);
 
-                        throw new Exception($"{_messageService.PostHashError()}. {ex.Message}. {ex.StackTrace}");
+                        throw new Exception($"{Constantes.Constants.LogMessages.TransaccionGuardarError}. {ex.Message}");
                     }
                 }
             }
             catch (Exception ex)
             {
-                // Log Error
-                var log = _logService.CrearLog(
+                var logError = _logService.CrearLog(
                     HttpContext,
-                    input.Hash,
-                    $"{_messageService.PostHashError()}. {ex.Message}",
-                    ex.StackTrace);
-                _logger.LogError("{@Log}", log);
+                    input.HashSHA256,
+                    Constantes.Constants.LogMessages.HashGuardarError,
+                    ex.Message
+                );
+                _logger.LogError("{@Log}", logError);
 
-                throw new Exception($"{_messageService.PostHashError()}. {ex.Message}. {ex.StackTrace}");
+                return StatusCode(500, $"{Constantes.Constants.LogMessages.HashGuardarError}. {ex.Message}");
+            }
+        }
+
+        [HttpGet("SaveMasivo")]
+        public async Task<ActionResult<string>> SaveMasivo()
+        {
+            try
+            {
+                string resultString = await this.SaveHashMasivo();
+
+                var logSuccess = _logService.CrearLog(
+                    HttpContext,
+                    null,
+                    resultString,
+                    null
+                );
+                _logger.LogError("{@Log}", logSuccess);
+
+                return Ok(resultString);
+            }
+            catch (Exception ex)
+            {
+                var logError = _logService.CrearLog(
+                    HttpContext,
+                    null,
+                    Constantes.Constants.LogMessages.HashGuardarMasivoError,
+                    ex.Message
+                );
+                _logger.LogError("{@Log}", logError);
+
+                return StatusCode(500, $"{Constantes.Constants.LogMessages.HashGuardarMasivoError}. {ex.Message}");
             }
         }
 
 
 
         // Métodos privados
-        private string CalcularHashSHA256(byte[] data)
+        private async Task<string> SaveHashMasivo()
         {
-            using (var sha256 = SHA256.Create())
-            {
-                byte[] hashBytes = sha256.ComputeHash(data);
-                return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
-            }
-        }
-
-        private async Task<bool> IsNodeAvailable()
-        {
-            using var httpClient = new HttpClient();
             try
             {
-                // Realizar una solicitud simple GET para verificar disponibilidad
-                var response = await httpClient.GetAsync(UrlNodoPrueba);
+                int cantidadImpactos = 0;
+                var transacciones = await _transaccionBFAService.GetAll();
+                var transaccionesPendientes = transacciones
+                    .Where(x => x.FechaAltaBFA == null && x.SnAltaBFA == false)
+                    .OrderBy(x => x.FechaAltaBFA ?? DateTime.MinValue);
+                
+                var account = new Account(PrivateKey);
+                var web3 = new Web3(account, UrlNodoPrueba);
+                web3.TransactionManager.UseLegacyAsDefault = true;
 
-                if (response.IsSuccessStatusCode)
+                var contract = web3.Eth.GetContract(ABI, ContractAddress);
+                var putFunction = contract.GetFunction("put");
+
+                foreach (var tr in transaccionesPendientes)
                 {
-                    return true; // Nodo está disponible
-                }
-                else
-                {
-                    // Log error
-                    var log = _logService.CrearLog(
-                        HttpContext,
-                        null,
-                        $"{_messageService.GetDisponibilidadBFAError()}. Error: {response.StatusCode} - {response.ReasonPhrase}",
-                        null);
-                    _logger.LogInformation("{@Log}", log);
-                }
-            }
-            catch (Exception ex)
-            {
-                // Log Error
-                var log = _logService.CrearLog(
-                    HttpContext,
-                    ex.StackTrace,
-                    $"{_messageService.GetDisponibilidadBFAError()}. {ex.Message}. {ex.StackTrace}",
-                    null);
-                _logger.LogInformation("{@Log}", log);
-            }
-
-            return false; // Nodo no está disponible
-        }
-
-        private async Task<bool> IsNodeSynced()
-        {
-            using var httpClient = new HttpClient();
-
-            var requestContent = new
-            {
-                jsonrpc = "2.0",
-                method = "eth_syncing",
-                @params = new object[] { },
-                id = 1
-            };
-
-            // Serializar el objeto a JSON
-            var jsonContent = new StringContent(
-                System.Text.Json.JsonSerializer.Serialize(requestContent),
-                Encoding.UTF8,
-                "application/json"
-            );
-
-            try
-            {
-                // Enviar la solicitud POST
-                var response = await httpClient.PostAsync(UrlNodoPrueba, jsonContent);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    // Leer la respuesta JSON
-                    var responseBody = await response.Content.ReadAsStringAsync();
-
-                    // Deserializar la respuesta
-                    var jsonResponse = System.Text.Json.JsonDocument.Parse(responseBody);
-
-                    // Extraer el campo "result"
-                    if (jsonResponse.RootElement.TryGetProperty("result", out var result))
+                    if (await VerificarBFAYActualizarDB(tr))
                     {
-                        // Si el resultado es "false", el nodo está sincronizado
-                        return result.ValueKind == System.Text.Json.JsonValueKind.False;
+                        cantidadImpactos++;
+                        continue;
+                    }
+
+                    if (await GuardarEnBFA(tr, putFunction, account))
+                    {
+                        cantidadImpactos++;
                     }
                 }
-                else
-                {
-                    // Manejo de error si el servidor no responde correctamente
-                    // Log Error
-                    var log = _logService.CrearLog(
-                    HttpContext,
-                        null,
-                        $"{_messageService.GetSincronizacionBFAError()}. Error: {response.StatusCode} - {response.ReasonPhrase}",
-                        null);
-                    _logger.LogInformation("{@Log}", log);
-                }
+
+                return $"{Constantes.Constants.LogMessages.HashGuardarMasivoSuccess}. Cantidad de impactos: {cantidadImpactos}";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                // Log Error
-                var log = _logService.CrearLog(
-                HttpContext,
-                ex.StackTrace,
-                $"{_messageService.GetSincronizacionBFAError()}. {ex.Message}. {ex.StackTrace}",
-                    null);
-                _logger.LogInformation("{@Log}", log);
+                throw;
+            }
+        }
+
+        private async Task<bool> VerificarBFAYActualizarDB(TransaccionBFA tr)
+        {
+            var encontrado = await _BFAService.GetHashDTO(tr.HashSHA256);
+
+            if (encontrado != null)
+            {
+                tr.FechaAltaBFA = encontrado.FechaAlta;
+                tr.SnAltaBFA = true;
+                await _transaccionBFAService.Update(tr);
+                return true;
             }
 
-            // Si no se puede determinar
             return false;
         }
 
-        private async Task<HashDTO?> GetHashDTO(string hash, bool showBase64)
-        {
-            if (!hash.StartsWith("0x"))
-                hash = "0x" + hash;
-            hash = hash.ToLower();
-
-            BigInteger hashValue = hash.HexToBigInteger(false);
-
-            var account = new Account(PrivateKey, ChainID);
-            var web3 = new Web3(account, UrlNodoPrueba);
-            web3.TransactionManager.UseLegacyAsDefault = true;
-
-            var contract = web3.Eth.GetContract(ABI, ContractAddress);
-            var getHashDataFunction = contract.GetFunction("getHashData");
-            var result = await getHashDataFunction.CallDeserializingToObjectAsync<HashDataDTO>(hashValue);
-
-            if (result.BlockNumbers == null || result.BlockNumbers.Count == 0)
-            {
-                return null;
-            }
-
-            BigInteger blockNumber = result.BlockNumbers[0];
-            var block = await web3.Eth.Blocks.GetBlockWithTransactionsByNumber.SendRequestAsync(new Nethereum.Hex.HexTypes.HexBigInteger(blockNumber));
-
-            DateTimeOffset timeStamp = DateTimeOffset.FromUnixTimeSeconds((long)block.Timestamp.Value);
-            DateTime argentinaTime = timeStamp.ToOffset(TimeSpan.FromHours(-3)).DateTime;
-            string formattedTimeStamp = argentinaTime.ToString("dd/MM/yyyy HH:mm:ss");
-
-            var tr = await this.ObtenerTransaccionEnDB(hash);
-            string hashRecuperado = result.Objects != null && result.Objects.Count > 0 ? "0x" + result.Objects[0].ToString("X") : "No registra";
-            string signerAddress = result.Stampers != null && result.Stampers.Count > 0 ? result.Stampers[0] : "No registra";
-
-            return new HashDTO
-            {
-                NumeroBloque = blockNumber.ToString(),
-                FechaAlta = formattedTimeStamp,
-                Hash = hashRecuperado,
-                IdTabla = result.IdTablas != null && result.IdTablas.Any() ? result.IdTablas[0].ToString() : "No registra",
-                NombreTabla = result.NombreTablas?.FirstOrDefault() ?? "No registra",
-                Sellador = signerAddress,
-                Base64 = showBase64 ? tr?.Base64 : null
-            };
-        }
-
-        private async Task<bool> GuardarTransaccionEnDB(string base64, string hash)
+        private async Task<bool> GuardarEnBFA(TransaccionBFA tr, Function putFunction, Account account)
         {
             try
             {
-                Transaccion transaccion = new Transaccion()
+                BigInteger hashValue = tr.HashSHA256.HexToBigInteger(false);
+                var objectList = new List<BigInteger> { hashValue };
+                var transactionHash = await putFunction.SendTransactionAsync(
+                    account.Address,
+                    new Nethereum.Hex.HexTypes.HexBigInteger(300000),
+                    null,
+                    objectList,
+                    tr.IdTabla,
+                    tr.NombreTabla ?? Constantes.Constants.DataMessages.NoRegistra,
+                    tr.Detalles ?? Constantes.Constants.DataMessages.NoRegistra,
+                    tr.TipoDocumento ?? Constantes.Constants.DataMessages.NoRegistra    
+                );
+
+                if (!string.IsNullOrEmpty(transactionHash))
                 {
-                    Base64 = base64,
-                    Hash = hash
-                };
+                    return await VerificarBFAYActualizarDB(tr);
+                }
 
-                _context.Transaccions.Add(transaccion);
-                await _context.SaveChangesAsync();
-
-                // Log Éxito
-                var log = _logService.CrearLog(
+                _logger.LogError("{@Log}", _logService.CrearLog(
                     HttpContext,
-                    hash,
-                    $"{_messageService.PostBaseDatosSuccess()}",
-                    null);
-                _logger.LogInformation("{@Log}", log);
-
-                return true;
+                    tr.HashSHA256,
+                    Constantes.Constants.LogMessages.HashGuardarError,
+                    null
+                ));
             }
             catch (Exception ex)
             {
-                // Log Error
-                var log = _logService.CrearLog(
+                _logger.LogError("{@Log}", _logService.CrearLog(
                     HttpContext,
-                    hash,
-                    $"{_messageService.PostBaseDatosError()}. {ex.Message}",
-                    ex.StackTrace);
-                _logger.LogError("{@Log}", log);
-
-                throw new Exception($"{_messageService.PostBaseDatosError()}. {ex.Message}. {ex.StackTrace}");
+                    tr.HashSHA256,
+                    Constantes.Constants.LogMessages.HashGuardarError,
+                    ex.Message
+                ));
             }
-        }
 
-        private async Task<Transaccion?> ObtenerTransaccionEnDB(string hash)
-        {
-            try
-            {
-                return await _context.Transaccions.FirstOrDefaultAsync(x => x.Hash == hash);
-            }
-            catch (Exception ex)
-            {
-                // Log Error
-                var log = _logService.CrearLog(
-                    HttpContext,
-                    hash,
-                    $"{_messageService.GetBaseDatosError()}. {ex.Message}",
-                    ex.StackTrace);
-                _logger.LogError("{@Log}", log);
-
-                throw new Exception($"{_messageService.GetBaseDatosError()}. {ex.Message}. {ex.StackTrace}");
-            }
+            return false;
         }
 
         #endregion

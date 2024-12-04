@@ -1,8 +1,10 @@
-﻿using BFASenado.Models;
+﻿using BFASenado.Middleware;
+using BFASenado.Models;
 using BFASenado.Services;
+using BFASenado.Services.BFA;
+using BFASenado.Services.Repository;
 using ElmahCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 
@@ -35,8 +37,9 @@ namespace BFASenado
             });
 
             services.AddAutoMapper(typeof(Startup));
-            services.AddTransient<IMessageService, MessageService>();
+            services.AddTransient<ITransaccionBFAService, TransaccionBFAService>();
             services.AddTransient<ILogService, LogService>();
+            services.AddTransient<IBFAService, BFAService>();
 
             // Registrar IHttpContextAccessor
             services.AddHttpContextAccessor();
@@ -58,6 +61,8 @@ namespace BFASenado
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BFASenado v1"));
             }
+
+            app.UseMiddleware<NodeValidationMiddleware>();
 
             app.UseHttpsRedirection();
 

@@ -1,10 +1,10 @@
 ﻿using Nethereum.ABI.FunctionEncoding.Attributes;
 using System.Numerics;
 
-namespace BFASenado.DTO.HashDTO
+namespace BFASenado.DTO.StampDTO
 {
     [FunctionOutput]
-    public class HashDataDTO
+    public class StampDTO
     {
         [Parameter("uint256[]", "objects", 1)]
         public List<BigInteger>? Objects { get; set; }
@@ -20,5 +20,11 @@ namespace BFASenado.DTO.HashDTO
 
         [Parameter("string[]", "nombreTablas", 5)]
         public List<string>? NombreTablas { get; set; }
+
+        [Parameter("string[]", "detalles", 6)]
+        public List<string>? Detalles { get; set; }
+
+        [Parameter("string[]", "tipoDocumentos", 7)]
+        public List<string>? TipoDocumentos { get; set; }
     }
 }
