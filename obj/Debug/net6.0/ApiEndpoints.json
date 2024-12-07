@@ -139,7 +139,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BFASenado.DTO.ResponseDTO.GetHashDTO",
+        "Type": "BFASenado.DTO.ResponseDTO.GuardarHashResponseDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",

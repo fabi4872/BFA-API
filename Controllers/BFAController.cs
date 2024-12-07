@@ -11,6 +11,7 @@ using BFASenado.DTO.ResponseDTO;
 using BFASenado.Services.BFA;
 using BFASenado.DTO.LogDTO;
 using Nethereum.Contracts;
+using Nethereum.Hex.HexTypes;
 
 namespace BFASenado.Controllers
 {
@@ -356,10 +357,11 @@ namespace BFASenado.Controllers
         }
 
         [HttpPost("SaveHash")]
-        public async Task<ActionResult<GetHashDTO?>> SaveHash([FromBody] GuardarHashDTO input)
+        public async Task<ActionResult<GuardarHashResponseDTO?>> SaveHash([FromBody] GuardarHashDTO input)
         {
             try
             {
+                var response = new GuardarHashResponseDTO();
                 var account = new Account(PrivateKey);
                 var web3 = new Web3(account, UrlNodoPrueba);
                 web3.TransactionManager.UseLegacyAsDefault = true;
@@ -389,81 +391,91 @@ namespace BFASenado.Controllers
                     return BadRequest(Constantes.Constants.LogMessages.HashDuplicadoError);
                 }
 
-                using (var transaction = await _context.Database.BeginTransactionAsync())
+                try
                 {
-                    try
+                    // Guardar en la base de datos
+                    response.SnSaveBaseDatos = await _transaccionBFAService.Save(new TransaccionBFA
                     {
-                        // Guardar en la base de datos
-                        await _transaccionBFAService.Save(new TransaccionBFA
-                        {
-                            Base64 = input.Base64,
-                            Detalles = input.Detalles,
-                            FechaAltaBFA = null,
-                            FechaAltaTabla = DateTime.Now,
-                            HashSHA256 = input.HashSHA256,
-                            HashHexa = hashHex,
-                            IdTabla = input.IdTabla,
-                            NombreTabla = input.NombreTabla,
-                            SnAltaBFA = false,
-                            TipoDocumento = input.TipoDocumento
-                        });
+                        Base64 = input.Base64,
+                        Detalles = input.Detalles,
+                        FechaAltaBFA = null,
+                        FechaAltaTabla = DateTime.Now,
+                        HashSHA256 = input.HashSHA256,
+                        HashHexa = hashHex,
+                        IdTabla = input.IdTabla,
+                        NombreTabla = input.NombreTabla,
+                        SnAltaBFA = false,
+                        TipoDocumento = input.TipoDocumento
+                    });
 
-                        // Guardar en la BFA
-                        var objectList = new List<BigInteger> { hashValue };
-                        var transactionHash = await putFunction.SendTransactionAsync(
-                            account.Address,
-                            new Nethereum.Hex.HexTypes.HexBigInteger(300000),
-                            null,
-                            objectList,
-                            input.IdTabla,
-                            input.NombreTabla ?? Constantes.Constants.DataMessages.NoRegistra,
-                            input.Detalles ?? Constantes.Constants.DataMessages.NoRegistra,
-                            input.TipoDocumento ?? Constantes.Constants.DataMessages.NoRegistra
-                        );
+                    // Guardar en la BFA
+                    var objectList = new List<BigInteger> { hashValue };
 
-                        if (string.IsNullOrEmpty(transactionHash))
+                    // Crear la entrada para estimar gas
+                    var gasEstimate = await putFunction.EstimateGasAsync(
+                        from: account.Address,
+                        gas: null,
+                        value: null,
+                        new object[]
                         {
-                            throw new Exception(Constantes.Constants.LogMessages.HashGuardarError);
+                        objectList,
+                        input.IdTabla,
+                        input.NombreTabla ?? Constantes.Constants.DataMessages.NoRegistra,
+                        input.Detalles ?? Constantes.Constants.DataMessages.NoRegistra,
+                        input.TipoDocumento ?? Constantes.Constants.DataMessages.NoRegistra
                         }
+                    );
 
-                        await transaction.CommitAsync();
+                    // Añadir un margen extra al gas estimado (por ejemplo, un 20%)
+                    var gasWithBuffer = new HexBigInteger(gasEstimate.Value * 120 / 100);
 
-                        var logSuccess = _logService.CrearLog(
-                            HttpContext,
-                            input.HashSHA256,
-                            Constantes.Constants.LogMessages.TransaccionGuardarSuccess,
-                            null
-                        );
-                        _logger.LogInformation("{@Log}", logSuccess);
+                    var transactionHash = await putFunction.SendTransactionAsync(
+                        account.Address,
+                        gasWithBuffer,
+                        null,
+                        objectList,
+                        input.IdTabla,
+                        input.NombreTabla ?? Constantes.Constants.DataMessages.NoRegistra,
+                        input.Detalles ?? Constantes.Constants.DataMessages.NoRegistra,
+                        input.TipoDocumento ?? Constantes.Constants.DataMessages.NoRegistra
+                    );
 
-                        // Actualizar registro en base de datos
-                        var resultRecuperado = await _BFAService.GetHashDTO(input.HashSHA256);
-                        TransaccionBFA? recuperado = await _transaccionBFAService.GetByHash(input.HashSHA256);
-                        if (resultRecuperado != null && recuperado != null)
-                        {
-                            recuperado.FechaAltaBFA = resultRecuperado.FechaAlta;
-                            recuperado.SnAltaBFA = true;
-                            await _transaccionBFAService.Update(recuperado);
-                        }
-
-                        // Retornar
-                        return Ok(resultRecuperado);
+                    response.HashDTO = await _BFAService.GetHashDTO(input.HashSHA256);
+                    if (response.HashDTO == null || string.IsNullOrEmpty(transactionHash))
+                    {
+                        throw new Exception(Constantes.Constants.LogMessages.HashGuardarError);
                     }
-                    catch (Exception ex)
+                    response.SnSaveBFA = true;
+
+                    var logSuccess = _logService.CrearLog(
+                        HttpContext,
+                        input.HashSHA256,
+                        Constantes.Constants.LogMessages.TransaccionGuardarSuccess,
+                        null
+                    );
+                    _logger.LogInformation("{@Log}", logSuccess);
+
+                    // Actualizar registro en base de datos
+                    TransaccionBFA? recuperado = await _transaccionBFAService.GetByHash(input.HashSHA256);
+                    if (response.HashDTO != null && recuperado != null)
                     {
-                        await transaction.RollbackAsync();
-
-                        var logError = _logService.CrearLog(
-                            HttpContext,
-                            input.HashSHA256,
-                            Constantes.Constants.LogMessages.TransaccionGuardarError,
-                            ex.Message
-                        );
-                        _logger.LogError("{@Log}", logError);
-
-                        throw new Exception($"{Constantes.Constants.LogMessages.TransaccionGuardarError}. {ex.Message}");
+                        recuperado.FechaAltaBFA = response.HashDTO.FechaAlta;
+                        recuperado.SnAltaBFA = true;
+                        response.SnUpdateCompletoBaseDatosBFA = await _transaccionBFAService.Update(recuperado);
                     }
                 }
+                catch (Exception ex)
+                {
+                    var logError = _logService.CrearLog(
+                        HttpContext,
+                        input.HashSHA256,
+                        Constantes.Constants.LogMessages.HashGuardarError,
+                        ex.Message
+                    );
+                    _logger.LogError("{@Log}", logError);
+                }
+
+                return Ok(response);
             }
             catch (Exception ex)
             {
@@ -573,9 +585,28 @@ namespace BFASenado.Controllers
             {
                 BigInteger hashValue = tr.HashSHA256.HexToBigInteger(false);
                 var objectList = new List<BigInteger> { hashValue };
+
+                // Crear la entrada para estimar gas
+                var gasEstimate = await putFunction.EstimateGasAsync(
+                    from: account.Address,
+                    gas: null,
+                    value: null,
+                    new object[]
+                    {
+                        objectList,
+                        tr.IdTabla,
+                        tr.NombreTabla ?? Constantes.Constants.DataMessages.NoRegistra,
+                        tr.Detalles ?? Constantes.Constants.DataMessages.NoRegistra,
+                        tr.TipoDocumento ?? Constantes.Constants.DataMessages.NoRegistra
+                    }
+                );
+
+                // Añadir un margen extra al gas estimado (por ejemplo, un 20%)
+                var gasWithBuffer = new HexBigInteger(gasEstimate.Value * 120 / 100);
+
                 var transactionHash = await putFunction.SendTransactionAsync(
                     account.Address,
-                    new Nethereum.Hex.HexTypes.HexBigInteger(300000),
+                    gasWithBuffer,
                     null,
                     objectList,
                     tr.IdTabla,

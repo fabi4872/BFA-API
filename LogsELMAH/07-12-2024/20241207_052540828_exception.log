@@ -1,0 +1,8 @@
+
+                Timestamp: 7/12/2024 05:25:40
+                Path: /api/BFA/HashBFA
+                Method: POST
+                Status Code: 400
+                Exception: No registra
+                ResponseBody: {"errors":{"HashSHA256":["El hash debe tener exactamente 64 caracteres","El formato es incorrecto"]},"type":"https://tools.ietf.org/html/rfc7231#section-6.5.1","title":"One or more validation errors occurred.","status":400,"traceId":"00-a8e4fd44bb32fb9e00edd1a432d8262f-431ffa967c019691-00"}
+                

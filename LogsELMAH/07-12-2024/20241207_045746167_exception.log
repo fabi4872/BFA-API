@@ -1,0 +1,8 @@
+
+                Timestamp: 7/12/2024 04:57:43
+                Path: /api/BFA/SaveHash
+                Method: POST
+                Status Code: 500
+                Exception: No registra
+                ResponseBody: Error al guardar el hash. Exception
+                

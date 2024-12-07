@@ -1,0 +1,8 @@
+
+                Timestamp: 7/12/2024 05:10:48
+                Path: /api/BFA/SaveHash
+                Method: POST
+                Status Code: 400
+                Exception: No registra
+                ResponseBody: Intento de guardar un hash duplicado
+                
