@@ -12,6 +12,10 @@ using BFASenado.Services.BFA;
 using BFASenado.DTO.LogDTO;
 using Nethereum.Contracts;
 using Nethereum.Hex.HexTypes;
+using Newtonsoft.Json;
+using System.Text;
+using System.Security.Cryptography;
+using System.Security.Policy;
 
 namespace BFASenado.Controllers
 {
@@ -109,7 +113,7 @@ namespace BFASenado.Controllers
         }
 
         [HttpPost("ArchivoData")]
-        public async Task<ActionResult<GetFileDTO?>> ArchivoData(IFormFile file)
+        public async Task<ActionResult<GetFileResponseDTO?>> ArchivoData(IFormFile file)
         {
             if (file == null || file.Length == 0)
             {
@@ -132,13 +136,13 @@ namespace BFASenado.Controllers
 
                     var logSuccess = _logService.CrearLog(
                         HttpContext,
-                        new { file?.FileName, file?.Length },
+                        new { FileName = file?.FileName, Length = file?.Length },
                         Constantes.Constants.LogMessages.GetPropiedadesArchivoSuccess,
                         null);
                     _logger.LogInformation("{@Log}", logSuccess);
 
                     // Retornar
-                    return Ok(new GetFileDTO()
+                    return Ok(new GetFileResponseDTO()
                     {
                         HashSHA256 = hash,
                         Base64 = base64
@@ -149,7 +153,7 @@ namespace BFASenado.Controllers
             {
                 var logError = _logService.CrearLog(
                     HttpContext,
-                    new { file?.FileName, file?.Length },
+                    new { FileName = file?.FileName, Length = file?.Length },
                     Constantes.Constants.LogMessages.GetPropiedadesArchivoError,
                     ex.Message);
                 _logger.LogError("{@Log}", logError);
@@ -159,7 +163,7 @@ namespace BFASenado.Controllers
         }
 
         [HttpPost("SHA256ByBase64")]
-        public ActionResult<string> SHA256ByBase64([FromBody] Base64InputDTO base64Input)
+        public ActionResult<string> SHA256ByBase64([FromBody] Base64InputRequestDTO base64Input)
         {
             try
             {
@@ -191,8 +195,39 @@ namespace BFASenado.Controllers
             }
         }
 
+        [HttpPost("SHA256ByRegistro")]
+        public ActionResult<GetFileResponseDTO?> SHA256ByRegistro([FromBody] RegistroRequestDTO registro)
+        {
+            try
+            {
+                // Serializar el objeto a JSON
+                string jsonData = JsonConvert.SerializeObject(registro);
+
+                // Obtener los bytes del JSON
+                byte[] dataBytes = Encoding.UTF8.GetBytes(jsonData);
+
+                // Retornar
+                return Ok(new GetFileResponseDTO()
+                {
+                    HashSHA256 = _BFAService.CalcularHashSHA256(dataBytes),
+                    Base64 = Convert.ToBase64String(dataBytes)
+                });
+            }
+            catch (Exception ex)
+            {
+                var logError = _logService.CrearLog(
+                    HttpContext,
+                    registro,
+                    Constantes.Constants.LogMessages.GetHashSHA256Error,
+                    ex.Message);
+                _logger.LogError("{@Log}", logError);
+
+                throw new Exception($"{Constantes.Constants.LogMessages.GetHashSHA256Error}. {ex.Message}");
+            }
+        }
+
         [HttpPost("HashBaseDatos")]
-        public async Task<ActionResult<TransaccionBFA?>> HashBaseDatos([FromBody] GetHashSHA256DTO input)
+        public async Task<ActionResult<TransaccionBFA?>> HashBaseDatos([FromBody] HashSHA256RequestDTO input)
         {
             try
             {
@@ -234,7 +269,7 @@ namespace BFASenado.Controllers
         }
 
         [HttpPost("HashBFA")]
-        public async Task<ActionResult<GetHashDTO>> HashBFA([FromBody] GetHashSHA256DTO input)
+        public async Task<ActionResult<GetHashResponseDTO>> HashBFA([FromBody] HashSHA256RequestDTO input)
         {
             try
             {
@@ -278,16 +313,17 @@ namespace BFASenado.Controllers
         }
 
         [HttpPost("Hashes")]
-        public async Task<ActionResult<List<GetHashDTO>>> Hashes([FromBody] GetHashListDTO input)
+        public async Task<ActionResult<GetHashesResponseDTO>> Hashes([FromBody] GetHashesRequestDTO input)
         {
             List<BigInteger> hashesList;
-            
+            var response = new GetHashesResponseDTO();
+
             try
             {
                 LogDTO logSuccess;
                 var account = new Account(PrivateKey, ChainID);
                 var web3 = new Web3(account, UrlNodoPrueba);
-                List<GetHashDTO> hashes = new List<GetHashDTO>();
+                List<GetHashResponseDTO> hashes = new List<GetHashResponseDTO>();
 
                 // Activar transacciones de tipo legacy
                 web3.TransactionManager.UseLegacyAsDefault = true;
@@ -295,19 +331,21 @@ namespace BFASenado.Controllers
                 // Cargar el contrato en la dirección especificada
                 var contract = web3.Eth.GetContract(ABI, ContractAddress);
 
-                if (input.IdTabla.HasValue || !string.IsNullOrEmpty(input.NombreTabla) || !string.IsNullOrEmpty(input.TipoDocumento))
+                if (input.IdTabla.HasValue || input.IdOrigen.HasValue || 
+                    !string.IsNullOrEmpty(input.NombreTabla) || !string.IsNullOrEmpty(input.TipoDocumento))
                 {
                     // Llamar a la función "getFilteredHashes" con filtros
                     var getFilteredHashesFunction = contract.GetFunction("getFilteredHashes");
                     hashesList = await getFilteredHashesFunction.CallAsync<List<BigInteger>>(
                         input.IdTabla ?? 0,
                         input.NombreTabla ?? "",
-                        input.TipoDocumento ?? ""
+                        input.TipoDocumento ?? "",
+                        input.IdOrigen ?? 0
                     );
 
                     logSuccess = _logService.CrearLog(
                         HttpContext, 
-                        new { input.IdTabla, input.NombreTabla, input.TipoDocumento }, 
+                        input, 
                         Constantes.Constants.LogMessages.GetHashesConFiltroSuccess, 
                         null);
                 }
@@ -328,7 +366,6 @@ namespace BFASenado.Controllers
                 var hashStrings = hashesList?
                     .Select(h => "0x" + h.ToString("X").ToLower())
                     .ToList();
-
                 foreach (var h in hashStrings)
                 {
                     var hashDTO = await _BFAService.GetHashDTO(h);
@@ -338,9 +375,27 @@ namespace BFASenado.Controllers
                     }
                 }
 
+                // Armar respuesta
+                response.Hashes = hashes.OrderByDescending(h => h.FechaAlta).ToList();
+                if (!string.IsNullOrEmpty(input.HashSHA256))
+                {
+                    response.SnVerificaUltimoHashGuardado = true;
+                    
+                    // Obtener hash de BFA, a partir del hashSHA256
+                    GetHashResponseDTO? hashBFA = await _BFAService.GetHashDTO(input.HashSHA256);
+                    response.UltimoHashGuardado = hashes.Count > 0 ? response.Hashes.First() : null;
+
+                    // Verificar si es último hash guardado
+                    if (hashBFA != null && response.UltimoHashGuardado != null) 
+                    { 
+                        if (hashBFA.Hash == response.UltimoHashGuardado.Hash)
+                            response.SnEsUltimoHashGuardado = true;
+                    }
+                }
+                
                 _logger.LogInformation("{@Log}", logSuccess);
 
-                return Ok(hashes);
+                return Ok(response);
             }
             catch (Exception ex)
             {
@@ -357,7 +412,7 @@ namespace BFASenado.Controllers
         }
 
         [HttpPost("SaveHash")]
-        public async Task<ActionResult<GuardarHashResponseDTO?>> SaveHash([FromBody] GuardarHashDTO input)
+        public async Task<ActionResult<GuardarHashResponseDTO?>> SaveHash([FromBody] GuardarHashRequestDTO input)
         {
             try
             {
@@ -369,12 +424,7 @@ namespace BFASenado.Controllers
                 var putFunction = contract.GetFunction("put");
                 var result = await _BFAService.GetHashDTO(input.HashSHA256);
                 BigInteger hashValue = input.HashSHA256.HexToBigInteger(false);
-                string hashHex = input.HashSHA256;
-
-                if (!hashHex.StartsWith("0x"))
-                    hashHex = "0x" + hashHex;
-                hashHex = hashHex.ToLower();
-
+                
                 // Verificar si el hash ya existe en la DB o en la BFA
                 var transaccionDB = await _transaccionBFAService.GetByHash(input.HashSHA256);
 
@@ -393,6 +443,8 @@ namespace BFASenado.Controllers
 
                 try
                 {
+                    var objectList = new List<BigInteger> { hashValue };
+
                     // Guardar en la base de datos
                     response.SnSaveBaseDatos = await _transaccionBFAService.Save(new TransaccionBFA
                     {
@@ -401,15 +453,12 @@ namespace BFASenado.Controllers
                         FechaAltaBFA = null,
                         FechaAltaTabla = DateTime.Now,
                         HashSHA256 = input.HashSHA256,
-                        HashHexa = hashHex,
                         IdTabla = input.IdTabla,
+                        IdOrigen = input.IdOrigen,
                         NombreTabla = input.NombreTabla,
                         SnAltaBFA = false,
                         TipoDocumento = input.TipoDocumento
                     });
-
-                    // Guardar en la BFA
-                    var objectList = new List<BigInteger> { hashValue };
 
                     // Crear la entrada para estimar gas
                     var gasEstimate = await putFunction.EstimateGasAsync(
@@ -422,13 +471,15 @@ namespace BFASenado.Controllers
                         input.IdTabla,
                         input.NombreTabla ?? Constantes.Constants.DataMessages.NoRegistra,
                         input.Detalles ?? Constantes.Constants.DataMessages.NoRegistra,
-                        input.TipoDocumento ?? Constantes.Constants.DataMessages.NoRegistra
+                        input.TipoDocumento ?? Constantes.Constants.DataMessages.NoRegistra,
+                        input.IdOrigen
                         }
                     );
 
                     // Añadir un margen extra al gas estimado (por ejemplo, un 20%)
                     var gasWithBuffer = new HexBigInteger(gasEstimate.Value * 120 / 100);
 
+                    // Guardar en la BFA
                     var transactionHash = await putFunction.SendTransactionAsync(
                         account.Address,
                         gasWithBuffer,
@@ -437,7 +488,8 @@ namespace BFASenado.Controllers
                         input.IdTabla,
                         input.NombreTabla ?? Constantes.Constants.DataMessages.NoRegistra,
                         input.Detalles ?? Constantes.Constants.DataMessages.NoRegistra,
-                        input.TipoDocumento ?? Constantes.Constants.DataMessages.NoRegistra
+                        input.TipoDocumento ?? Constantes.Constants.DataMessages.NoRegistra,
+                        input.IdOrigen
                     );
 
                     response.HashDTO = await _BFAService.GetHashDTO(input.HashSHA256);
@@ -459,6 +511,7 @@ namespace BFASenado.Controllers
                     TransaccionBFA? recuperado = await _transaccionBFAService.GetByHash(input.HashSHA256);
                     if (response.HashDTO != null && recuperado != null)
                     {
+                        recuperado.HashBFA = response.HashDTO.Hash; 
                         recuperado.FechaAltaBFA = response.HashDTO.FechaAlta;
                         recuperado.SnAltaBFA = true;
                         response.SnUpdateCompletoBaseDatosBFA = await _transaccionBFAService.Update(recuperado);
@@ -571,6 +624,7 @@ namespace BFASenado.Controllers
             if (encontrado != null)
             {
                 tr.FechaAltaBFA = encontrado.FechaAlta;
+                tr.HashBFA = encontrado.Hash;
                 tr.SnAltaBFA = true;
                 await _transaccionBFAService.Update(tr);
                 return true;
@@ -597,7 +651,8 @@ namespace BFASenado.Controllers
                         tr.IdTabla,
                         tr.NombreTabla ?? Constantes.Constants.DataMessages.NoRegistra,
                         tr.Detalles ?? Constantes.Constants.DataMessages.NoRegistra,
-                        tr.TipoDocumento ?? Constantes.Constants.DataMessages.NoRegistra
+                        tr.TipoDocumento ?? Constantes.Constants.DataMessages.NoRegistra,
+                        tr.IdOrigen
                     }
                 );
 
@@ -612,7 +667,8 @@ namespace BFASenado.Controllers
                     tr.IdTabla,
                     tr.NombreTabla ?? Constantes.Constants.DataMessages.NoRegistra,
                     tr.Detalles ?? Constantes.Constants.DataMessages.NoRegistra,
-                    tr.TipoDocumento ?? Constantes.Constants.DataMessages.NoRegistra    
+                    tr.TipoDocumento ?? Constantes.Constants.DataMessages.NoRegistra,
+                    tr.IdOrigen
                 );
 
                 if (!string.IsNullOrEmpty(transactionHash))

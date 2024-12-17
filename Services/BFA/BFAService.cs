@@ -115,7 +115,7 @@ namespace BFASenado.Services.BFA
             return false;
         }
 
-        public async Task<GetHashDTO?> GetHashDTO(string hash)
+        public async Task<GetHashResponseDTO?> GetHashDTO(string hash)
         {
             if (!hash.StartsWith("0x"))
                 hash = "0x" + hash;
@@ -144,12 +144,13 @@ namespace BFASenado.Services.BFA
             string hashRecuperado = result.Objects != null && result.Objects.Count > 0 ? result.Objects[0].ToString() : Constantes.Constants.DataMessages.NoRegistra;
             string signerAddress = result.Stampers != null && result.Stampers.Count > 0 ? result.Stampers[0] : Constantes.Constants.DataMessages.NoRegistra;
 
-            return new GetHashDTO()
+            return new GetHashResponseDTO()
             {
                 NumeroBloque = blockNumber.ToString(),
                 FechaAlta = argentinaTime,
                 Hash = hashRecuperado,
                 IdTabla = result.IdTablas != null && result.IdTablas.Any() ? result.IdTablas[0].ToString() : Constantes.Constants.DataMessages.NoRegistra,
+                IdOrigen = result.IdOrigenes != null && result.IdOrigenes.Any() ? result.IdOrigenes[0].ToString() : Constantes.Constants.DataMessages.NoRegistra,
                 NombreTabla = result.NombreTablas?.FirstOrDefault() ?? Constantes.Constants.DataMessages.NoRegistra,
                 TipoDocumento = result.TipoDocumentos?.FirstOrDefault() ?? Constantes.Constants.DataMessages.NoRegistra,
                 Detalles = result.Detalles?.FirstOrDefault() ?? Constantes.Constants.DataMessages.NoRegistra,

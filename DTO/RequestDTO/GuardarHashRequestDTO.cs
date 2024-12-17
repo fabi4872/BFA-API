@@ -2,11 +2,15 @@
 
 namespace BFASenado.DTO.RequestDTO
 {
-    public class GuardarHashDTO
+    public class GuardarHashRequestDTO
     {
         [Required(ErrorMessage = $"{Constantes.Constants.DataAnnotationsErrorMessages.Required}")]
         [Range(1, long.MaxValue, ErrorMessage = Constantes.Constants.DataAnnotationsErrorMessages.GreaterThanZero)]
         public long IdTabla { get; set; }
+
+        [Required(ErrorMessage = $"{Constantes.Constants.DataAnnotationsErrorMessages.Required}")]
+        [Range(1, long.MaxValue, ErrorMessage = Constantes.Constants.DataAnnotationsErrorMessages.GreaterThanZero)]
+        public long IdOrigen { get; set; }
 
         [Required(ErrorMessage = $"{Constantes.Constants.DataAnnotationsErrorMessages.Required}")]
         public string NombreTabla { get; set; } = null!;
@@ -19,9 +23,8 @@ namespace BFASenado.DTO.RequestDTO
         [RegularExpression("^[a-fA-F0-9]{64}$", ErrorMessage = $"{Constantes.Constants.DataAnnotationsErrorMessages.FormatoIncorrecto}")]
         public string HashSHA256 { get; set; } = null!;
 
-        [Required(ErrorMessage = $"{Constantes.Constants.DataAnnotationsErrorMessages.Required}")]
         [RegularExpression("^[A-Za-z0-9+/]+={0,2}$", ErrorMessage = $"{Constantes.Constants.DataAnnotationsErrorMessages.FormatoIncorrecto}")]
-        public string Base64 { get; set; } = null!;
+        public string? Base64 { get; set; }
 
         public string? Detalles { get; set; }
     }

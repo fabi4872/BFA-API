@@ -15,7 +15,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BFASenado.DTO.ResponseDTO.GetFileDTO",
+        "Type": "BFASenado.DTO.ResponseDTO.GetFileResponseDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -55,7 +55,7 @@
     "Parameters": [
       {
         "Name": "input",
-        "Type": "BFASenado.DTO.RequestDTO.GetHashSHA256DTO",
+        "Type": "BFASenado.DTO.RequestDTO.HashSHA256RequestDTO",
         "IsRequired": true
       }
     ],
@@ -81,13 +81,13 @@
     "Parameters": [
       {
         "Name": "input",
-        "Type": "BFASenado.DTO.RequestDTO.GetHashSHA256DTO",
+        "Type": "BFASenado.DTO.RequestDTO.HashSHA256RequestDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "BFASenado.DTO.ResponseDTO.GetHashDTO",
+        "Type": "BFASenado.DTO.ResponseDTO.GetHashResponseDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -107,13 +107,13 @@
     "Parameters": [
       {
         "Name": "input",
-        "Type": "BFASenado.DTO.RequestDTO.GetHashListDTO",
+        "Type": "BFASenado.DTO.RequestDTO.GetHashesRequestDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BFASenado.DTO.ResponseDTO.GetHashDTO, BFASenado, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "BFASenado.DTO.ResponseDTO.GetHashesResponseDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -133,7 +133,7 @@
     "Parameters": [
       {
         "Name": "input",
-        "Type": "BFASenado.DTO.RequestDTO.GuardarHashDTO",
+        "Type": "BFASenado.DTO.RequestDTO.GuardarHashRequestDTO",
         "IsRequired": true
       }
     ],
@@ -179,13 +179,39 @@
     "Parameters": [
       {
         "Name": "base64Input",
-        "Type": "BFASenado.DTO.RequestDTO.Base64InputDTO",
+        "Type": "BFASenado.DTO.RequestDTO.Base64InputRequestDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
         "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BFASenado.Controllers.BFAController",
+    "Method": "SHA256ByRegistro",
+    "RelativePath": "api/BFA/SHA256ByRegistro",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "registro",
+        "Type": "BFASenado.DTO.RequestDTO.RegistroRequestDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BFASenado.DTO.ResponseDTO.GetFileResponseDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",

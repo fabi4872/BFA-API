@@ -26,5 +26,8 @@ namespace BFASenado.DTO.StampDTO
 
         [Parameter("string[]", "tipoDocumentos", 7)]
         public List<string>? TipoDocumentos { get; set; }
+
+        [Parameter("uint256[]", "idOrigenes", 8)]
+        public List<BigInteger>? IdOrigenes { get; set; }
     }
 }

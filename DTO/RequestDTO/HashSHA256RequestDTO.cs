@@ -2,7 +2,7 @@
 
 namespace BFASenado.DTO.RequestDTO
 {
-    public class GetHashSHA256DTO
+    public class HashSHA256RequestDTO
     {
         [Required(ErrorMessage = $"{Constantes.Constants.DataAnnotationsErrorMessages.Required}")]
         [StringLength(64, MinimumLength = 64, ErrorMessage = $"{Constantes.Constants.DataAnnotationsErrorMessages.HashSHA256Length}")]

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace BFASenado.Models
 {
     [Table("TransaccionBFA")]
-    [Index("HashHexa", "HashSHA256", Name = "UK_TransaccionBFA", IsUnique = true)]
+    [Index("HashSHA256", Name = "UK_TransaccionBFA", IsUnique = true)]
     public partial class TransaccionBFA
     {
         [Key]
@@ -13,6 +13,9 @@ namespace BFASenado.Models
 
         [Column("IdTabla")]
         public long IdTabla { get; set; }
+
+        [Column("IdOrigen")]
+        public long IdOrigen { get; set; }
 
         [Column("NombreTabla")]
         [StringLength(100)]
@@ -26,12 +29,12 @@ namespace BFASenado.Models
         [StringLength(100)]
         public string HashSHA256 { get; set; } = null!;
 
-        [Column("HashHexa")]
+        [Column("HashBFA")]
         [StringLength(100)]
-        public string HashHexa { get; set; } = null!;
+        public string? HashBFA { get; set; } = null;
 
         [Column("Base64", TypeName = "text")]
-        public string Base64 { get; set; } = null!;
+        public string? Base64 { get; set; } = null;
 
         [Column("Detalles")]
         [StringLength(100)]

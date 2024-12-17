@@ -1,0 +1,8 @@
+
+                Timestamp: 17/12/2024 03:40:55
+                Path: /api/BFA/Hashes
+                Method: POST
+                Status Code: 500
+                Exception: No registra
+                ResponseBody: Error al obtener los hashes. String value expected for type 'string'
+                

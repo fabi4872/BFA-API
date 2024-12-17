@@ -1,0 +1,8 @@
+
+                Timestamp: 17/12/2024 03:38:50
+                Path: /api/BFA/Hashes
+                Method: POST
+                Status Code: 400
+                Exception: No registra
+                ResponseBody: {"errors":{"IdTabla":["El valor debe ser mayor a cero"]},"type":"https://tools.ietf.org/html/rfc7231#section-6.5.1","title":"One or more validation errors occurred.","status":400,"traceId":"00-539f590ac0f100113d6608d7205a2ffe-a81f91a2b35b8ee3-00"}
+                

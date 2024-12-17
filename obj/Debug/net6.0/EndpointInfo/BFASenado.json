@@ -68,17 +68,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetFileDTO"
+                  "$ref": "#/components/schemas/GetFileResponseDTO"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetFileDTO"
+                  "$ref": "#/components/schemas/GetFileResponseDTO"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetFileDTO"
+                  "$ref": "#/components/schemas/GetFileResponseDTO"
                 }
               }
             }
@@ -95,22 +95,22 @@
           "content": {
             "application/json-patch+json": {
               "schema": {
-                "$ref": "#/components/schemas/Base64InputDTO"
+                "$ref": "#/components/schemas/Base64InputRequestDTO"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Base64InputDTO"
+                "$ref": "#/components/schemas/Base64InputRequestDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Base64InputDTO"
+                "$ref": "#/components/schemas/Base64InputRequestDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Base64InputDTO"
+                "$ref": "#/components/schemas/Base64InputRequestDTO"
               }
             }
           }
@@ -139,6 +139,59 @@
         }
       }
     },
+    "/api/BFA/SHA256ByRegistro": {
+      "post": {
+        "tags": [
+          "BFA"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistroRequestDTO"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistroRequestDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistroRequestDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistroRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetFileResponseDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetFileResponseDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetFileResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/BFA/HashBaseDatos": {
       "post": {
         "tags": [
@@ -148,22 +201,22 @@
           "content": {
             "application/json-patch+json": {
               "schema": {
-                "$ref": "#/components/schemas/GetHashSHA256DTO"
+                "$ref": "#/components/schemas/HashSHA256RequestDTO"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/GetHashSHA256DTO"
+                "$ref": "#/components/schemas/HashSHA256RequestDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/GetHashSHA256DTO"
+                "$ref": "#/components/schemas/HashSHA256RequestDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/GetHashSHA256DTO"
+                "$ref": "#/components/schemas/HashSHA256RequestDTO"
               }
             }
           }
@@ -201,22 +254,22 @@
           "content": {
             "application/json-patch+json": {
               "schema": {
-                "$ref": "#/components/schemas/GetHashSHA256DTO"
+                "$ref": "#/components/schemas/HashSHA256RequestDTO"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/GetHashSHA256DTO"
+                "$ref": "#/components/schemas/HashSHA256RequestDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/GetHashSHA256DTO"
+                "$ref": "#/components/schemas/HashSHA256RequestDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/GetHashSHA256DTO"
+                "$ref": "#/components/schemas/HashSHA256RequestDTO"
               }
             }
           }
@@ -227,17 +280,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetHashDTO"
+                  "$ref": "#/components/schemas/GetHashResponseDTO"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetHashDTO"
+                  "$ref": "#/components/schemas/GetHashResponseDTO"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetHashDTO"
+                  "$ref": "#/components/schemas/GetHashResponseDTO"
                 }
               }
             }
@@ -254,22 +307,22 @@
           "content": {
             "application/json-patch+json": {
               "schema": {
-                "$ref": "#/components/schemas/GetHashListDTO"
+                "$ref": "#/components/schemas/GetHashesRequestDTO"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/GetHashListDTO"
+                "$ref": "#/components/schemas/GetHashesRequestDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/GetHashListDTO"
+                "$ref": "#/components/schemas/GetHashesRequestDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/GetHashListDTO"
+                "$ref": "#/components/schemas/GetHashesRequestDTO"
               }
             }
           }
@@ -280,26 +333,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetHashDTO"
-                  }
+                  "$ref": "#/components/schemas/GetHashesResponseDTO"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetHashDTO"
-                  }
+                  "$ref": "#/components/schemas/GetHashesResponseDTO"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GetHashDTO"
-                  }
+                  "$ref": "#/components/schemas/GetHashesResponseDTO"
                 }
               }
             }
@@ -316,22 +360,22 @@
           "content": {
             "application/json-patch+json": {
               "schema": {
-                "$ref": "#/components/schemas/GuardarHashDTO"
+                "$ref": "#/components/schemas/GuardarHashRequestDTO"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/GuardarHashDTO"
+                "$ref": "#/components/schemas/GuardarHashRequestDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/GuardarHashDTO"
+                "$ref": "#/components/schemas/GuardarHashRequestDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/GuardarHashDTO"
+                "$ref": "#/components/schemas/GuardarHashRequestDTO"
               }
             }
           }
@@ -392,7 +436,7 @@
   },
   "components": {
     "schemas": {
-      "Base64InputDTO": {
+      "Base64InputRequestDTO": {
         "required": [
           "base64"
         ],
@@ -405,7 +449,7 @@
         },
         "additionalProperties": false
       },
-      "GetFileDTO": {
+      "GetFileResponseDTO": {
         "type": "object",
         "properties": {
           "hashSHA256": {
@@ -419,10 +463,69 @@
         },
         "additionalProperties": false
       },
-      "GetHashDTO": {
+      "GetHashesRequestDTO": {
+        "type": "object",
+        "properties": {
+          "hashSHA256": {
+            "maxLength": 64,
+            "minLength": 64,
+            "pattern": "^[a-fA-F0-9]{64}$",
+            "type": "string",
+            "nullable": true
+          },
+          "idTabla": {
+            "minimum": 0,
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "idOrigen": {
+            "minimum": 0,
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "nombreTabla": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoDocumento": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetHashesResponseDTO": {
+        "type": "object",
+        "properties": {
+          "snVerificaUltimoHashGuardado": {
+            "type": "boolean"
+          },
+          "snEsUltimoHashGuardado": {
+            "type": "boolean"
+          },
+          "ultimoHashGuardado": {
+            "$ref": "#/components/schemas/GetHashResponseDTO"
+          },
+          "hashes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetHashResponseDTO"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetHashResponseDTO": {
         "type": "object",
         "properties": {
           "idTabla": {
+            "type": "string",
+            "nullable": true
+          },
+          "idOrigen": {
             "type": "string",
             "nullable": true
           },
@@ -461,44 +564,10 @@
         },
         "additionalProperties": false
       },
-      "GetHashListDTO": {
-        "type": "object",
-        "properties": {
-          "idTabla": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
-          },
-          "nombreTabla": {
-            "type": "string",
-            "nullable": true
-          },
-          "tipoDocumento": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "GetHashSHA256DTO": {
+      "GuardarHashRequestDTO": {
         "required": [
-          "hashSHA256"
-        ],
-        "type": "object",
-        "properties": {
-          "hashSHA256": {
-            "maxLength": 64,
-            "minLength": 64,
-            "pattern": "^[a-fA-F0-9]{64}$",
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "GuardarHashDTO": {
-        "required": [
-          "base64",
           "hashSHA256",
+          "idOrigen",
           "idTabla",
           "nombreTabla",
           "tipoDocumento"
@@ -506,6 +575,11 @@
         "type": "object",
         "properties": {
           "idTabla": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64"
+          },
+          "idOrigen": {
             "minimum": 1,
             "type": "integer",
             "format": "int64"
@@ -524,7 +598,8 @@
           },
           "base64": {
             "pattern": "^[A-Za-z0-9+/]+={0,2}$",
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "detalles": {
             "type": "string",
@@ -549,7 +624,54 @@
             "nullable": true
           },
           "hashDTO": {
-            "$ref": "#/components/schemas/GetHashDTO"
+            "$ref": "#/components/schemas/GetHashResponseDTO"
+          }
+        },
+        "additionalProperties": false
+      },
+      "HashSHA256RequestDTO": {
+        "required": [
+          "hashSHA256"
+        ],
+        "type": "object",
+        "properties": {
+          "hashSHA256": {
+            "maxLength": 64,
+            "minLength": 64,
+            "pattern": "^[a-fA-F0-9]{64}$",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RegistroRequestDTO": {
+        "required": [
+          "idOrigen",
+          "idTabla",
+          "nombreTabla",
+          "tipoDocumento"
+        ],
+        "type": "object",
+        "properties": {
+          "idTabla": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64"
+          },
+          "idOrigen": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int64"
+          },
+          "nombreTabla": {
+            "type": "string"
+          },
+          "tipoDocumento": {
+            "type": "string"
+          },
+          "detalles": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -562,6 +684,10 @@
             "format": "int64"
           },
           "idTabla": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "idOrigen": {
             "type": "integer",
             "format": "int64"
           },
@@ -583,7 +709,7 @@
             "type": "string",
             "nullable": true
           },
-          "hashHexa": {
+          "hashBFA": {
             "maxLength": 100,
             "minLength": 0,
             "type": "string",

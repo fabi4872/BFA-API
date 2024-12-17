@@ -1,0 +1,8 @@
+
+                Timestamp: 17/12/2024 02:37:03
+                Path: /api/BFA/Hashes
+                Method: POST
+                Status Code: 500
+                Exception: No registra
+                ResponseBody: Error al obtener los hashes. Index and count must refer to a location within the buffer. (Parameter 'bytes')
+                

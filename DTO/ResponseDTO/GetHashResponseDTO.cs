@@ -1,8 +1,9 @@
 ﻿namespace BFASenado.DTO.ResponseDTO
 {
-    public class GetHashDTO
+    public class GetHashResponseDTO
     {
         public string IdTabla { get; set; } = null!;
+        public string IdOrigen { get; set; } = null!;
         public string NombreTabla { get; set; } = null!;
         public string NumeroBloque { get; set; } = null!;
         public string Hash { get; set; } = null!;

@@ -1,0 +1,8 @@
+
+                Timestamp: 17/12/2024 03:34:05
+                Path: /api/BFA/HashBaseDatos
+                Method: POST
+                Status Code: 400
+                Exception: No registra
+                ResponseBody: El hash no existe
+                

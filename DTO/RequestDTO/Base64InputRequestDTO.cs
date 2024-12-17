@@ -2,7 +2,7 @@
 
 namespace BFASenado.DTO.RequestDTO
 {
-    public class Base64InputDTO
+    public class Base64InputRequestDTO
     {
         [Required(ErrorMessage = $"{Constantes.Constants.DataAnnotationsErrorMessages.Required}")]
         [RegularExpression("^[A-Za-z0-9+/]+={0,2}$", ErrorMessage = $"{Constantes.Constants.DataAnnotationsErrorMessages.FormatoIncorrecto}")]
