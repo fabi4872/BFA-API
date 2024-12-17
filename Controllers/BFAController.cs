@@ -14,8 +14,6 @@ using Nethereum.Contracts;
 using Nethereum.Hex.HexTypes;
 using Newtonsoft.Json;
 using System.Text;
-using System.Security.Cryptography;
-using System.Security.Policy;
 
 namespace BFASenado.Controllers
 {
